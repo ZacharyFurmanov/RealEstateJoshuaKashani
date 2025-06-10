@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 // Increase page size so we can retrieve larger result sets in one request
 // The Agora endpoint currently allows up to 200 without throttling.
-const PAGE_SIZE = 50;
+const PAGE_SIZE = 55;
 const BASE_URL = 'https://www.theagencyre.com/services/agoraGetFeaturedProperties.ashx';
 
 async function fetchByRT(rt, pageNum = 1) {

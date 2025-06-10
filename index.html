@@ -90,15 +90,27 @@
   margin-top: 0.25em;
 }
 
+
 .review-text {
   font-size: 0.9rem;
   line-height: 1.5;
   margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  display: block;
 }
+
+  /* --- Review card tweaks (no initial, more compact) --- */
+  .reviewer-initial {
+    display: none !important;   /* hide the big initial circle */
+  }
+  .review-card {
+    padding: 1em;               /* slightly smaller card */
+  }
+  .reviewer-info h4 {
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
 
 .see-more-reviews {
   display: block;
@@ -792,7 +804,7 @@
         <div class="reviewer-initial">A</div>
         <div class="reviewer-info">
           <h4>Aaron Mashian</h4>
-          <div class="reviewer-meta">1 review · 2 months ago</div>
+          <div class="reviewer-meta">2 months ago</div>
           <div class="review-stars">★★★★★</div>
         </div>
       </div>
@@ -807,7 +819,7 @@
         <div class="reviewer-initial">B</div>
         <div class="reviewer-info">
           <h4>Brandon Younesi</h4>
-          <div class="reviewer-meta">5 reviews · 2 months ago</div>
+          <div class="reviewer-meta">2 months ago</div>
           <div class="review-stars">★★★★★</div>
         </div>
       </div>
@@ -822,7 +834,7 @@
         <div class="reviewer-initial">J</div>
         <div class="reviewer-info">
           <h4>Joubin Sedgh</h4>
-          <div class="reviewer-meta">3 reviews · 2 months ago</div>
+          <div class="reviewer-meta">2 months ago</div>
           <div class="review-stars">★★★★★</div>
         </div>
       </div>
@@ -1048,11 +1060,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const price    = item.FormattedPrice || item.ListPrice || '';
         const title    = item.FormattedAddress || item.Address || '';
         const image    = item.CoverPhoto || '';
+        const detailUrl = item.DetailUrlForSchema || item.DetailUrl || item.DetailURL || '#';
 
         marker.bindPopup(`
           <div style="text-align:center; max-width:180px">
-            ${image ? `<img src="${image}" alt="${title}" style="width:120px; height:auto; margin-bottom:0.5em; border-radius:6px;">` : ''}
-            <div><strong>${title}</strong><br>${price}${bedBath ? ' · ' + bedBath : ''}</div>
+            ${image ? `<a href="${detailUrl}" target="_blank" rel="noopener"><img src="${image}" alt="${title}" style="width:120px; height:auto; margin-bottom:0.5em; border-radius:6px;"></a>` : ''}
+            <div>
+              <a href="${detailUrl}" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">
+                <strong>${title}</strong>
+              </a><br>
+              ${price}${bedBath ? ' · ' + bedBath : ''}
+            </div>
           </div>
         `);
       });
@@ -1080,10 +1098,21 @@ document.addEventListener('DOMContentLoaded', () => {
         sold:    data.soldHouses    || []
       };
 
+      // Hide tab buttons & panels when a category has no listings
+      Object.entries(categories).forEach(([cat, items]) => {
+        if (items.length === 0) {
+          const btn   = document.querySelector(`.tab-button[data-target="${cat}"]`);
+          const panel = document.getElementById(`panel-${cat}`);
+          if (btn)   btn.style.display = 'none';
+          if (panel) panel.style.display = 'none';
+        }
+      });
+
       // Loop through each category and render its listings
       Object.entries(categories).forEach(([category, listings]) => {
         const gridSelector = PANEL_MAP[category];
         if (!gridSelector) return;
+        if (listings.length === 0) return;   // nothing to render for this tab
         const grid = document.querySelector(gridSelector);
         grid.innerHTML = '';
 
@@ -1158,16 +1187,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const href = link.getAttribute('href');
             if (href.startsWith('#')) {
                 e.preventDefault();
+                // Begin closing menu immediately for a seamless transition
+                html.classList.remove('nav-open');   // re‑enable scrolling
+                nav.classList.add('closing');
+
+                // Smooth‑scroll to the target once the nav starts sliding away
                 const target = document.querySelector(href);
                 if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
+                    setTimeout(() => {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 50);      // small delay lets the CSS transition kick in
                 }
-                // Add smoother closing animation
-                nav.classList.add('closing');
+
+                // Finish cleanup after the closing animation
                 setTimeout(() => {
-                    nav.classList.remove('open');
-                    nav.classList.remove('closing');
-                    html.classList.remove('nav-open');
+                    nav.classList.remove('open', 'closing');
                 }, 500); // Match the CSS transition duration
             }
         });
@@ -1180,6 +1214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     transform: translateY(-100%);
     opacity: 0;
     transition: transform 0.5s ease, opacity 0.5s ease;
+    pointer-events: none;
 }
 </style>
 </body>
