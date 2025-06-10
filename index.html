@@ -9,6 +9,17 @@
     <meta content="Webflow" name="generator"/>
     <link href="https://cdn.prod.website-files.com/625e063db7e003e37631375f/css/house-of-rolison.webflow.shared.db0cc398b.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+    <!-- Leaflet styles -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      crossorigin=""
+    />
+    <style>
+      /* keep rounded corners for the Leaflet map so the UI looks the same */
+      #map,
+      .leaflet-container { border-radius: 8px; }
+    </style>
     <script type="text/javascript">
     !function(o, c) {
         var n = c.documentElement,
@@ -517,6 +528,16 @@
     flex-wrap: wrap;
     text-align: left;
   }
+  @media (max-width: 767px) {
+    /* Center hero photo + text on phones */
+    .hero-wrapper {
+      justify-content: center;
+      text-align: center;
+    }
+    .hero-wrapper > div {
+      text-align: center;
+    }
+  }
   .hero-headshot {
     width: 200px;
     height: 200px;
@@ -671,13 +692,6 @@
             <div class="divider-line"></div>
         </div>
         <div class="secondary-items-container">
-            <div class="links-container">
-                <a href="http://facebook.com" target="_blank" class="secondary-nav-item-style">FACEBOOK</a>
-                <a href="http://twitter.com" target="_blank" class="secondary-nav-item-style">Twitter</a>
-                <a href="http://instagram.com" target="_blank" class="secondary-nav-item-style">Instagram</a>
-                <a href="http://pinterest.com" target="_blank" class="secondary-nav-item-style">Pinterest</a>
-                <a href="mailto:contact@archie.com?subject=Hey%20Team%20Archie%20!" class="secondary-nav-item-style">CONTACT</a>
-            </div>
         </div>
     </div>
     <div data-w-id="1e862bac-001f-3384-7db9-f09a1f5b7220" class="closed-nav-wrapper">
@@ -971,82 +985,80 @@ document.querySelectorAll('.tab-button').forEach(btn=>{
       document.documentElement.style.setProperty('--door-openness', fraction);
     });
   </script>
-  <script>
-    function initMap() {
-      const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
-      // Center map on Los Angeles
-      var center = { lat: 34.0522, lng: -118.2437 };
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 11,
-        center: center,
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: false,
-        zoomControl: true,
-        gestureHandling: 'greedy'
+<!-- Leaflet library (free, no API key required) -->
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  crossorigin="">
+</script>
+
+<!-- Initialise Leaflet map & plot listings -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const accentColor = getComputedStyle(document.documentElement)
+                        .getPropertyValue('--accent-color').trim() || '#b55e31';
+
+  /* Create map centred on Los Angeles */
+  const map = L.map('map', {
+    center: [34.0522, -118.2437],
+    zoom: 11,
+    scrollWheelZoom: true,
+    attributionControl: false
+  });
+
+  /* CartoDB Positron tiles (free, no key required) */
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution:
+      '&copy; <a href="https://carto.com/attributions">CARTO</a> | &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(map);
+
+  /* Pull listings and add circle markers (green = active, red = sold/closed) */
+  fetch('public/listings.json')
+    .then(r => r.json())
+    .then(data => {
+      const allListings = [
+        ...(data.availableRentals || []),
+        ...(data.leasedUnits     || []),
+        ...(data.forSaleHouses   || []),
+        ...(data.soldHouses      || [])
+      ];
+
+      allListings.forEach(item => {
+        if (!item.Latitude || !item.Longitude) return;
+
+        const lat  = Number(item.Latitude);
+        const lng  = Number(item.Longitude);
+        const statusLower = (item.Status || '').toLowerCase();
+        const isSold = item.IsSold || statusLower === 'sold' || statusLower === 'closed';
+
+        const marker = L.circleMarker([lat, lng], {
+          radius: 8,
+          color: '#ffffff',
+          weight: 2,
+          fillOpacity: 1,
+          fillColor: isSold ? 'red' : 'green'
+        }).addTo(map);
+
+        const beds  = item.Beds || 0;
+        const baths = (item.BathsFull || 0) + (item.BathsHalf || 0) * 0.5;
+        const bedText  = beds  ? `${beds} Bed${beds > 1 ? 's' : ''}` : '';
+        const bathText = baths ? `${baths} Bath${baths !== 1 ? 's' : ''}` : '';
+        const bedBath  = [bedText, bathText].filter(Boolean).join(' · ');
+        const price    = item.FormattedPrice || item.ListPrice || '';
+        const title    = item.FormattedAddress || item.Address || '';
+        const image    = item.CoverPhoto || '';
+
+        marker.bindPopup(`
+          <div style="text-align:center; max-width:180px">
+            ${image ? `<img src="${image}" alt="${title}" style="width:120px; height:auto; margin-bottom:0.5em; border-radius:6px;">` : ''}
+            <div><strong>${title}</strong><br>${price}${bedBath ? ' · ' + bedBath : ''}</div>
+          </div>
+        `);
       });
-      var infoWindow = new google.maps.InfoWindow();
-      fetch('public/listings.json')
-        .then(res => res.json())
-        .then(data => {
-          // Combine all four categories into a single array for map markers
-          let allListings = [];
-          if (data.availableRentals) {
-            allListings = allListings.concat(data.availableRentals);
-          }
-          if (data.leasedUnits) {
-            allListings = allListings.concat(data.leasedUnits);
-          }
-          if (data.forSaleHouses) {
-            allListings = allListings.concat(data.forSaleHouses);
-          }
-          if (data.soldHouses) {
-            allListings = allListings.concat(data.soldHouses);
-          }
-          allListings.forEach(item => {
-            if (!item.Latitude || !item.Longitude) return;
-            const statusLower = item.Status ? item.Status.toLowerCase() : '';
-            const isSold = item.IsSold || statusLower === 'sold' || statusLower === 'closed';
-            const position = { lat: parseFloat(item.Latitude), lng: parseFloat(item.Longitude) };
-            const title = item.FormattedAddress || item.Address || '';
-            const beds = item.Beds || 0;
-            const baths = (item.BathsFull || 0) + (item.BathsHalf || 0) * 0.5;
-            const bedText = beds ? `${beds} Bed${beds > 1 ? 's' : ''}` : '';
-            const bathText = baths ? `${baths} Bath${baths !== 1 ? 's' : ''}` : '';
-            const bedBath = [bedText, bathText].filter(Boolean).join(' · ');
-            const price = item.FormattedPrice || item.ListPrice || '';
-            const info = price + (bedBath ? ' · ' + bedBath : '');
-            const image = item.CoverPhoto || '';
-            const marker = new google.maps.Marker({
-              position: position,
-              map: map,
-              title: title,
-              icon: {
-                path: google.maps.SymbolPath.CIRCLE,
-                fillColor: isSold ? 'red' : 'green',
-                fillOpacity: 1,
-                strokeColor: '#ffffff',
-                strokeWeight: 2,
-                scale: 8
-              }
-            });
-            marker.addListener('click', function() {
-              infoWindow.setContent(
-                '<div style="text-align:center;">' +
-                  (image ? '<img src="' + image + '" alt="' + title + '" style="width:120px; height:auto; margin-bottom:0.5em; border-radius:6px;">' : '') +
-                  '<div><strong>' + title + '</strong><br>' + info + '</div>' +
-                '</div>'
-              );
-              infoWindow.open(map, marker);
-            });
-          });
-        })
-        .catch(err => console.error('Failed to load listings for map', err));
-    }
-  </script>
-  <script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBeeHC-bzzZOpgw-Gy7xFD47C2_pSqbxfo&callback=initMap"
-  async defer>
+    })
+    .catch(err => console.error('Failed to load listings for map', err));
+});
 </script>
 <!-- ===== auto-populate listings from listings.json ===== -->
 <script type="module">
@@ -1087,10 +1099,11 @@ document.querySelectorAll('.tab-button').forEach(btn=>{
 
           // ----- status badge logic -----
           const statusLower = (item.Status || '').toLowerCase();
+          const bannerLower = (item.Banner || item.PropertyBanner || item.BannerLabel || '').toLowerCase();
           let badgeHTML = '';
           if (category === 'rentals' && statusLower.includes('contract')) {
             badgeHTML = '<div class="status-badge under-contract">Active Under Contract</div>';
-          } else if (category === 'leased' || statusLower.includes('leased') || statusLower.includes('rented')) {
+          } else if (category === 'leased' || statusLower.includes('leased') || statusLower.includes('rented') || bannerLower.includes('rented')) {
             badgeHTML = '<div class="status-badge leased">Leased</div>';
           }
           // --------------------------------
