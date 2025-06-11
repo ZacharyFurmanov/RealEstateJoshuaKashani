@@ -680,6 +680,25 @@
   }
 }
 </style>
+<style>
+@media (max-width: 600px) {
+  .listing-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1em;
+  }
+  .listing-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+  }
+  #map {
+    min-height: 350px !important;
+    height: 50vw !important;
+    max-height: 60vw;
+  }
+}
+</style>
 </head>
 <body class="body-default">
     <!-- Navigation -->
@@ -1043,6 +1062,11 @@ document.addEventListener('DOMContentLoaded', () => {
     zoom: 11,
     scrollWheelZoom: true,
     attributionControl: false
+  });
+
+  // Responsive: Invalidate map size on window resize (for mobile)
+  window.addEventListener('resize', () => {
+    setTimeout(() => map.invalidateSize(), 300);
   });
 
   /* CartoDB Positron tiles (free, no key required) */
