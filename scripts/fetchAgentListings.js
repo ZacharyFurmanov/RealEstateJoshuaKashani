@@ -1,14 +1,15 @@
+// Configuration
 const OWNER_KEY = process.env.AGENT_KEY || '2644';
 const OWNER_RT = 'AGENT';
-// use built-in fetch API (Node 18+)
+const PAGE_SIZE = 500;
+const BASE_URL = 'https://www.theagencyre.com/services/agoraGetFeaturedProperties.ashx';
+
+// Dependencies
 const { URL } = require('url');
 const fs = require('fs');
 const path = require('path');
-// Increase page size so we can retrieve larger result sets in one request
-// The Agora endpoint currently allows up to 200 without throttling.
-const PAGE_SIZE = 200;
-const BASE_URL = 'https://www.theagencyre.com/services/agoraGetFeaturedProperties.ashx';
 
+// API Request Handler
 async function fetchByRT(rt, pageNum = 1) {
   const params = {
     ownerPK: OWNER_KEY,
@@ -43,6 +44,7 @@ async function fetchByRT(rt, pageNum = 1) {
   return await res.json();
 }
 
+// Pagination Handler
 async function fetchAllByRT(rt) {
   let page = 1;
   let combined = { Items: [] };
@@ -57,6 +59,7 @@ async function fetchAllByRT(rt) {
   return combined;
 }
 
+// Optional Feed Handler
 /**
  * Attempt to fetch an RT that may or may not exist for every agent.
  * Returns an empty object with an empty Items array if the RT is unknown.
@@ -71,27 +74,38 @@ async function fetchOptionalRT(rt) {
   }
 }
 
+// Main Execution
 async function main() {
   try {
-    // Try to pull a past‑rentals feed as well (some agents have it; others don’t)
+    // Fetch Multiple Feed Types
     const [current, sold, past, pastLeased, comingSoon, pending] = await Promise.all([
       fetchAllByRT('CMNCMN'),
       fetchAllByRT('CMNSLD'),
       fetchAllByRT('PASTTRANSACTIONS'),
-      fetchOptionalRT('PASTLEASED'),          // extra feed that often holds “Rented” listings
+      fetchOptionalRT('PASTLEASED'),
       fetchOptionalRT('COMINGSOON'),
       fetchOptionalRT('PENDING')
     ]);
 
-    console.table({
-      current:     (current.Items     || []).length,
-      sold:        (sold.Items        || []).length,
-      past:        (past.Items        || []).length,
-      pastLeased:  (pastLeased.Items  || []).length,
-      comingSoon:  (comingSoon.Items  || []).length,
-      pending:     (pending.Items     || []).length
-    });
+    // Feed Processing
+    const feeds = {
+      current:     (current.Items     || []).map(ensureImage),
+      sold:        (sold.Items        || []).map(ensureImage),
+      past:        (past.Items        || []).map(ensureImage),
+      pastLeased:  (pastLeased.Items  || []).map(ensureImage),
+      comingSoon:  (comingSoon.Items  || []).map(ensureImage),
+      pending:     (pending.Items     || []).map(ensureImage)
+    };
 
+    // Statistics
+    const allListings = Object.values(feeds).flat();
+    console.table(
+      Object.fromEntries(
+        Object.entries(feeds).map(([key, arr]) => [key, arr.length])
+      )
+    );
+
+    // Image Handling
     function ensureImage(listing) {
       if (listing.ImageURL) return listing;
       const fallback =
@@ -102,54 +116,16 @@ async function main() {
       return { ...listing, ImageURL: fallback };
     }
 
-    const availableRentals = (current.Items || [])
-      .filter(
-        item =>
-          item.IsRental &&
-          /^active/i.test(item.Status || '')    // includes “Active”, “Active Under Contract”, etc.
-      )
-      .map(ensureImage);
-
-    const forSaleHouses = [...(current.Items || []), ...(comingSoon.Items || []), ...(pending.Items || [])]
-      .filter(
-        item =>
-          !item.IsRental &&
-          /^(active|coming soon|pending)/i.test(item.Status || '')
-      )
-      .map(ensureImage);
-
-    // Combine current, past, sold, and pastLeased items to capture any rentals that ended up in the “sold” feed or past leased feed
-    const leasedUnits = [...current.Items, ...past.Items, ...sold.Items, ...(pastLeased.Items || [])]
-      .filter(item =>
-        /(leased|closed|rented)/i.test((item.Status || '').trim()) ||
-        /(rented)/i.test(((item.Banner || item.PropertyBanner || item.BannerLabel || '')).trim())
-      )
-      .map(ensureImage);
-
-    const soldHouses = (sold.Items || [])
-      // Exclude anything whose status contains “Rented” or “Leased” so it doesn’t duplicate in both lists
-      .filter(item =>
-        !/(leased|rented)/i.test((item.Status || '').trim()) &&                       // not explicitly leased/rented status
-        !/(rented)/i.test(((item.Banner || item.PropertyBanner || item.BannerLabel || '')).trim()) && // not banner‑rented
-        !item.IsRental &&                                                            // not a rental
-        !pastLeased.Items.some(r => r.MLSNumber === item.MLSNumber)                  // not in past‑leased feed
-      )
-      .map(ensureImage);
-
-    const output = {
-      availableRentals,
-      leasedUnits,
-      forSaleHouses,
-      soldHouses
-    };
+    // Output Generation
+    const output = feeds;
     const outPath = path.join(__dirname, '../public/listings.json');
     fs.writeFileSync(outPath, JSON.stringify(output, null, 2), 'utf-8');
-    console.log(`Wrote ${Object.values(output).reduce((sum, arr) => sum + arr.length, 0)} listings to ${outPath}`);
-    // console.log(JSON.stringify(output, null, 2));
+    console.log(`Wrote ${allListings.length} listings to ${outPath}`);
   } catch (err) {
     console.error('Error fetching listings:', err.message);
     process.exit(1);
   }
 }
 
+// Execute
 main();

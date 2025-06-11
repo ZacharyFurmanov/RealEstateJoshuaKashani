@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <head>
+    <!-- Meta information -->
     <meta charset="utf-8"/>
     <title>Joshua Kashani | Estates Agent</title>
     <meta content="Los Angeles real estate runs in Joshua Kashani's DNA. A born‑and‑raised Westsider and USC‑educated Estates Agent, Joshua serves Beverly Hills, Brentwood, Westwood, West Hollywood and Santa Monica." name="description"/>
-    <meta content="/public/ThumbnailImage.jpg" property="og:image"/>
-    <meta content="/public/ThumbnailImage.jpg" property="twitter:image"/>
+    <meta content="ThumbnailImage.jpg" property="og:image"/>
+    <meta content="ThumbnailImage.jpg" property="twitter:image"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <meta content="Webflow" name="generator"/>
+
+    <!-- Style imports -->
     <link href="https://cdn.prod.website-files.com/625e063db7e003e37631375f/css/house-of-rolison.webflow.shared.db0cc398b.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-    <!-- Leaflet styles -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      crossorigin=""
-    />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+
+    <!-- Core styles -->
     <style>
+      .nav-logo {
+        display: block;
+        max-width: 110px;
+        height: auto;
+      }
       /* keep rounded corners for the Leaflet map so the UI looks the same */
       #map,
       .leaflet-container { border-radius: 8px; }
     </style>
+
+    <!-- Initialize webflow -->
     <script type="text/javascript">
     !function(o, c) {
         var n = c.documentElement,
@@ -28,7 +35,9 @@
         ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
     }(window, document);
     </script>
-  <style>
+
+    <!-- Component styles -->
+    <style>
   /* Base font from example site */
   body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -246,30 +255,27 @@
   pointer-events: none;
 }
 
-  /* === Cascading menu‑item animation (demo‑site style) === */
+  /* === Cascading menu‑item animation (updated for seamless transition) === */
   .nav-items-container a.nav-item {
     opacity: 0;
-    transform: translateY(30px);
-    transition: transform 0.55s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.55s ease;
+    transform: translateY(20px);  /* reduced from 30px for subtler motion */
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), 
+                opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1);
   }
+  
   .nav-section.open .nav-items-container a.nav-item {
     opacity: 1;
     transform: translateY(0);
   }
-  /* Stagger each anchor link for a gentle cascade */
-  .nav-section.open .nav-items-container a.nav-item:nth-of-type(1) { transition-delay: 0.12s; }
-  .nav-section.open .nav-items-container a.nav-item:nth-of-type(2) { transition-delay: 0.24s; }
-  .nav-section.open .nav-items-container a.nav-item:nth-of-type(3) { transition-delay: 0.36s; }
-  .nav-section.open .nav-items-container a.nav-item:nth-of-type(4) { transition-delay: 0.48s; }
-  .nav-section.open .nav-items-container a.nav-item:nth-of-type(5) { transition-delay: 0.60s; }
-  .nav-section.open .nav-items-container a.nav-item:nth-of-type(6) { transition-delay: 0.72s; }
 
-  /* Also fade‑in social/secondary links slightly later */
+  /* Remove individual item delays for smoother group animation */
   .secondary-items-container {
     opacity: 0;
-    transform: translateY(30px);
-    transition: transform 0.55s cubic-bezier(0.19, 1, 0.22, 1) 0.85s, opacity 0.55s ease 0.85s;
+    transform: translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1) 0.1s,
+                opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1) 0.1s;
   }
+  
   .nav-section.open .secondary-items-container {
     opacity: 1;
     transform: translateY(0);
@@ -631,6 +637,8 @@
   }
   .status-badge.under-contract{ background:var(--accent-color); }
   .status-badge.leased{ background:#000; opacity:0.85; }
+  /* Generic banner badge (Coming Soon, In Escrow, etc.) */
+  .status-badge.banner{ background:var(--accent-color); }
   /* === Split titles (à la House of Rolison) === */
   .split-title-wrapper {
     display: grid;
@@ -666,10 +674,15 @@
     align-items: flex-start;
   }
 }
+@media (max-width: 480px) {
+  .hero-subtitle {
+    font-size: 0.98rem;
+  }
+}
 </style>
 </head>
 <body class="body-default">
-  <!-- Door overlay removed -->
+    <!-- Navigation -->
     <div id="Top-Nav" data-w-id="1e862bac-001f-3384-7db9-f09a1f5b71f0" class="nav-section">
     <div class="opened-nav-wrapper">
         <div class="top-content-container">
@@ -709,6 +722,7 @@
     <div data-w-id="1e862bac-001f-3384-7db9-f09a1f5b7220" class="closed-nav-wrapper">
         <div class="closed-nav-container">
             <a href="/" aria-current="page" class="logo-container w-inline-block w--current">
+              <img src="logo.png" alt="Joshua Kashani Logo" class="nav-logo" style="width: 72px; height: auto;">
             </a>
             <div class="menu-button-container">
                 <a data-w-id="1e862bac-001f-3384-7db9-f09a1f5b7226" href="#" class="menu-button w-inline-block">
@@ -718,6 +732,8 @@
         </div>
     </div>
 </div>
+
+    <!-- Hero section -->
     <div data-w-id="9078b87d-f5f0-5346-1487-3613bf5de07e" class="hero-section scroll-animate">
       <div class="hero-wrapper w-container">
         <img src="headshot.jpg" alt="Joshua Kashani" class="hero-headshot scroll-animate delay-0">
@@ -728,6 +744,8 @@
         </div>
       </div>
     </div>
+
+    <!-- About section -->
     <section class="about-section scroll-animate">
             <div class="split-title-wrapper">
                 <h2 class="split-title-1">Learn</h2>
@@ -750,6 +768,7 @@
         </div>
       </div>
     </section>
+
     <!-- === Dynamic Listings (Tabbed) === -->
 <section id="listings-section" class="listings-section scroll-animate">
   <div class="split-title-wrapper">
@@ -788,7 +807,9 @@
     <div class="listing-grid"></div>
   </div>
 </section>
-<section id="reviews-section" class="reviews-section scroll-animate">
+
+    <!-- Reviews section -->
+    <section id="reviews-section" class="reviews-section scroll-animate">
   <div class="split-title-wrapper">
     <h2 class="split-title-1 animate">Client</h2>
     <h2 class="split-title-2 animate"><em>Reviews</em></h2>
@@ -848,14 +869,25 @@
   </a>
 </section>
 <!-- === /Dynamic Listings (Tabbed) === -->
-    <!-- Google Maps with Listings Markers -->
+
+    <!-- Map section -->
     <section id="map-section" class="map-section scroll-animate">
       <div class="split-title-wrapper">
         <h2 class="split-title-1 animate delay-0">Explore on the</h2>
         <h2 class="split-title-2 animate delay-1"><em>Map</em></h2>
       </div>
+      <div style="max-width:900px;margin:0 auto 1em;padding:0 1em;">
+        <label style="font-size:1rem;user-select:none;">
+          <input type="checkbox" id="show-sold-checkbox" checked style="margin-right:0.5em;">
+          Show Sold Properties
+        </label>
+      </div>
       <div class="map-container animate delay-1">
         <div id="map"></div>
+      </div>
+      <div id="marker-counter" style="display:none;max-width:900px;margin:0 auto 1em;padding:0 1em; font-size:1rem; color:#666;">
+        <span id="unsold-count">Available: 0</span> &nbsp;|&nbsp; 
+        <span id="sold-count">Sold: 0</span>
       </div>
       <div class="contact-button-container" style="text-align:center; margin-top:1em;">
         <a href="mailto:joshkashani@theagencyre.com" class="see-more-reviews">
@@ -863,6 +895,8 @@
         </a>
       </div>
     </section>
+
+    <!-- Footer -->
     <footer id="footer" class="site-footer scroll-animate">
       <div class="footer-content">
         <p class="footer-contact animate delay-0">
@@ -876,6 +910,15 @@
         <p class="rights animate delay-2">© 2025 Joshua Kashani. All rights reserved.</p>
       </div>
     </footer>
+
+    <!-- Script imports -->
+    <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=625e063db7e003e37631375f" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.prod.website-files.com/625e063db7e003e37631375f/js/webflow.schunk.4a394eb5af8156f2.js" type="text/javascript"></script>
+    <script src="https://cdn.prod.website-files.com/625e063db7e003e37631375f/js/webflow.schunk.7474359a2d8661da.js" type="text/javascript"></script>
+    <script src="https://cdn.prod.website-files.com/625e063db7e003e37631375f/js/webflow.88defdb0.ac051af72f9a6daf.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+    <!-- Core functionality -->
     <script>
 // Ensure second split‑title line stretches to match the first
 function fitSplitTitles() {
@@ -927,7 +970,7 @@ document.querySelectorAll('.tab-button').forEach(btn=>{
   });
 });
     </script>
-  <script>
+    <script>
     document.addEventListener('DOMContentLoaded', function() {
       const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
@@ -940,7 +983,8 @@ document.querySelectorAll('.tab-button').forEach(btn=>{
       document.querySelectorAll('.scroll-animate').forEach(el => observer.observe(el));
     });
   </script>
-  <!-- === Menu toggle === -->
+
+  <!-- Navigation scripts -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const nav       = document.getElementById('Top-Nav');
@@ -986,24 +1030,9 @@ document.querySelectorAll('.tab-button').forEach(btn=>{
       }
     });
   </script>
-    <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=625e063db7e003e37631375f" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="https://cdn.prod.website-files.com/625e063db7e003e37631375f/js/webflow.schunk.4a394eb5af8156f2.js" type="text/javascript"></script>
-    <script src="https://cdn.prod.website-files.com/625e063db7e003e37631375f/js/webflow.schunk.7474359a2d8661da.js" type="text/javascript"></script>
-    <script src="https://cdn.prod.website-files.com/625e063db7e003e37631375f/js/webflow.88defdb0.ac051af72f9a6daf.js" type="text/javascript"></script>
-  <script>
-    window.addEventListener('scroll', function() {
-      var fraction = Math.min(window.scrollY / window.innerHeight, 1);
-      document.documentElement.style.setProperty('--door-openness', fraction);
-    });
-  </script>
-<!-- Leaflet library (free, no API key required) -->
-<script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-  crossorigin="">
-</script>
 
-<!-- Initialise Leaflet map & plot listings -->
-<script>
+    <!-- Map scripts -->
+    <script>
 document.addEventListener('DOMContentLoaded', () => {
   const accentColor = getComputedStyle(document.documentElement)
                         .getPropertyValue('--accent-color').trim() || '#b55e31';
@@ -1028,20 +1057,56 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch('public/listings.json')
     .then(r => r.json())
     .then(data => {
-      const allListings = [
-        ...(data.availableRentals || []),
-        ...(data.leasedUnits     || []),
-        ...(data.forSaleHouses   || []),
-        ...(data.soldHouses      || [])
-      ];
+      // Build a map of all listings by unique key
+      const listingMap = new Map();
 
-      allListings.forEach(item => {
-        if (!item.Latitude || !item.Longitude) return;
+      // Helper to get unique key
+      function getKey(item) {
+        return item.MLSNumber || item.Id || item.id || JSON.stringify(item);
+      }
 
-        const lat  = Number(item.Latitude);
-        const lng  = Number(item.Longitude);
-        const statusLower = (item.Status || '').toLowerCase();
-        const isSold = item.IsSold || statusLower === 'sold' || statusLower === 'closed';
+      // 1. Process sold first (highest priority)
+      (data.sold || []).forEach(item => {
+        if (item.Latitude && item.Longitude) {
+          listingMap.set(getKey(item), {...item, _mapStatus: 'sold'});
+        }
+      });
+
+      // 2. Then leased (unless already sold)
+      (data.pastLeased || []).forEach(item => {
+        if (item.Latitude && item.Longitude) {
+          const key = getKey(item);
+          if (!listingMap.has(key)) {
+            listingMap.set(key, {...item, _mapStatus: 'leased'});
+          }
+        }
+      });
+
+      // 3. Then available rentals
+      (data.current || []).forEach(item => {
+        if (item.Latitude && item.Longitude && item.IsRental) {
+          const key = getKey(item);
+          if (!listingMap.has(key)) {
+            listingMap.set(key, {...item, _mapStatus: 'available'});
+          }
+        }
+      });
+
+      // 4. Then available sales
+      (data.current || []).forEach(item => {
+        if (item.Latitude && item.Longitude && !item.IsRental) {
+          const key = getKey(item);
+          if (!listingMap.has(key)) {
+            listingMap.set(key, {...item, _mapStatus: 'available'});
+          }
+        }
+      });
+
+      // Prepare markers array
+      const markers = [];
+      listingMap.forEach(item => {
+        const isSold = item._mapStatus === 'sold' || item._mapStatus === 'leased';
+        const lat = Number(item.Latitude), lng = Number(item.Longitude);
 
         const marker = L.circleMarker([lat, lng], {
           radius: 8,
@@ -1051,6 +1116,7 @@ document.addEventListener('DOMContentLoaded', () => {
           fillColor: isSold ? 'red' : 'green'
         }).addTo(map);
 
+        // Build popup
         const beds  = item.Beds || 0;
         const baths = (item.BathsFull || 0) + (item.BathsHalf || 0) * 0.5;
         const bedText  = beds  ? `${beds} Bed${beds > 1 ? 's' : ''}` : '';
@@ -1072,13 +1138,50 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
         `);
+
+        markers.push({ marker, isSold });
       });
+
+      // Helper to update marker counter
+      function updateMarkerCounter() {
+        const soldCheckbox = document.getElementById('show-sold-checkbox');
+        const showSold = soldCheckbox ? soldCheckbox.checked : true;
+        let unsoldShown = 0, soldShown = 0;
+        markers.forEach(({ marker, isSold }) => {
+          if (map.hasLayer(marker)) {
+            if (isSold) soldShown++;
+            else unsoldShown++;
+          }
+        });
+        document.getElementById('unsold-count').textContent = `Available: ${unsoldShown}`;
+        document.getElementById('sold-count').textContent = `Sold: ${soldShown}`;
+      }
+
+      // Initial counter
+      updateMarkerCounter();
+
+      // Filter logic for the checkbox
+      const soldCheckbox = document.getElementById('show-sold-checkbox');
+      if (soldCheckbox) {
+        soldCheckbox.addEventListener('change', () => {
+          const showSold = soldCheckbox.checked;
+          markers.forEach(({ marker, isSold }) => {
+            if (isSold && !showSold) {
+              marker.remove(); // Hide sold markers
+            } else if (isSold && showSold && !map.hasLayer(marker)) {
+              marker.addTo(map); // Show sold markers
+            }
+          });
+          updateMarkerCounter();
+        });
+      }
     })
     .catch(err => console.error('Failed to load listings for map', err));
 });
 </script>
-<!-- ===== auto-populate listings from listings.json ===== -->
-<script type="module">
+
+    <!-- Listings population -->
+    <script type="module">
   const PANEL_MAP = {
     rentals: '#panel-rentals .listing-grid',
     leased:  '#panel-leased .listing-grid',
@@ -1089,13 +1192,55 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch('public/listings.json')
     .then(res => res.json())
     .then(data => {
-      // Directly use the four output categories from listings.json
-      const categories = {
-        rentals: data.availableRentals || [],
-        leased:  data.leasedUnits   || [],
-        sales:   data.forSaleHouses || [],
-        sold:    data.soldHouses    || []
+      // ----- Re‑classify raw feed buckets into UI categories -----
+      const feeds = data || {};
+      const merge = (...arrs) => arrs.flat().filter(Boolean);
+
+      const rentals = merge(feeds.current, feeds.comingSoon, feeds.pending)
+        .filter(item =>
+          item.IsRental &&
+          /^(active|active under contract|coming soon|pending)/i.test(item.Status || '')
+        );
+
+      // Build leased‑units list (deduplicated):
+      const leasedMap = new Map();
+
+      // Helper to push unique MLS# keys
+      const addLease = item => {
+        const key = item.MLSNumber || item.Id || item.id || JSON.stringify(item);
+        if (!leasedMap.has(key)) leasedMap.set(key, item);
       };
+
+      // 1) Everything explicitly returned in the pastLeased feed
+      (feeds.pastLeased || []).forEach(addLease);
+
+      // 2) Anything in the other feeds that clearly looks like a completed rental
+      merge(feeds.current, feeds.past, feeds.sold, feeds.comingSoon, feeds.pending).forEach(item => {
+        const statusLower = (item.Status || '').toLowerCase();
+        const bannerLower = (item.Banner || item.PropertyBanner || item.BannerLabel || '').toLowerCase();
+        const closedRental =
+          /(leased|rented)/i.test(statusLower) ||
+          /(leased|rented)/i.test(bannerLower) ||
+          (item.IsRental && /(closed|sold)/i.test(statusLower));
+        if (closedRental) addLease(item);
+      });
+
+      const leased = Array.from(leasedMap.values());
+
+      const sales = merge(feeds.current, feeds.comingSoon, feeds.pending)
+        .filter(item =>
+          !item.IsRental &&
+          /^(active|active under contract|coming soon|pending)/i.test(item.Status || '')
+        );
+
+      const sold = (feeds.sold || [])
+        .filter(item =>
+          !/(leased|rented)/i.test((item.Status || '').trim()) &&
+          !item.IsRental &&
+          !(feeds.pastLeased || []).some(r => r.MLSNumber === item.MLSNumber)
+        );
+
+      const categories = { rentals, leased, sales, sold };
 
       // Hide tab buttons & panels when a category has no listings
       Object.entries(categories).forEach(([cat, items]) => {
@@ -1127,12 +1272,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // ----- status badge logic -----
           const statusLower = (item.Status || '').toLowerCase();
-          const bannerLower = (item.Banner || item.PropertyBanner || item.BannerLabel || '').toLowerCase();
-          let badgeHTML = '';
+          const bannerText  = item.Banner || item.PropertyBanner || item.BannerLabel || item.PropertyBannerLabel || '';
+          const bannerLower = bannerText.toLowerCase();
+          let   badgeHTML   = '';
+
+          // 1) Special case: rentals that are active‑under‑contract
           if (category === 'rentals' && statusLower.includes('contract')) {
             badgeHTML = '<div class="status-badge under-contract">Active Under Contract</div>';
-          } else if (category === 'leased' || statusLower.includes('leased') || statusLower.includes('rented') || bannerLower.includes('rented')) {
+
+          // 2) Anything clearly leased / rented
+          } else if (
+            category === 'leased' ||
+            statusLower.includes('leased')  || statusLower.includes('rented') ||
+            bannerLower.includes('leased')  || bannerLower.includes('rented')
+          ) {
             badgeHTML = '<div class="status-badge leased">Leased</div>';
+
+          // 3) Use explicit banner text if feed provides it (Coming Soon, In Escrow, etc.)
+          } else if (bannerText) {
+            badgeHTML = `<div class="status-badge banner">${bannerText}</div>`;
+
+          // 4) Fallback: show a generic badge based on the active panel
+          } else {
+            if      (category === 'rentals') badgeHTML = '<div class="status-badge banner">Rental</div>';
+            else if (category === 'sales')   badgeHTML = '<div class="status-badge banner">For Sale</div>';
+            else if (category === 'sold')    badgeHTML = '<div class="status-badge banner">Sold</div>';
           }
           // --------------------------------
 
@@ -1174,8 +1338,9 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(err => console.error('Failed to load and classify listings.json', err));
 </script>
-<!-- Add smooth scroll behavior when clicking menu items -->
-<script>
+
+    <!-- Animation scripts -->
+    <script>
 document.addEventListener('DOMContentLoaded', () => {
     const nav = document.getElementById('Top-Nav');
     const html = document.documentElement;
@@ -1207,7 +1372,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
-<style>
+
+    <!-- Utility styles -->
+    <style>
 /* Add smoother closing animation for the menu */
 .nav-section.closing .opened-nav-wrapper {
     transform: translateY(-100%);
@@ -1215,6 +1382,92 @@ document.addEventListener('DOMContentLoaded', () => {
     transition: transform 0.5s ease, opacity 0.5s ease;
     pointer-events: none;
 }
+
+/* Smoother menu transitions */
+.nav-section {
+  transition: opacity 0.3s ease;
+}
+
+.opened-nav-wrapper {
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1),
+              opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.nav-section.open .opened-nav-wrapper {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Prevent multiple clicks during animation */
+.nav-section.animating {
+  pointer-events: none;
+}
 </style>
+
+<!-- Menu toggle -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const nav = document.getElementById('Top-Nav');
+    const menuBtn = nav.querySelector('.closed-nav-wrapper .menu-button');
+    const closeBtn = nav.querySelector('.close-button-container');
+    const html = document.documentElement;
+    let isAnimating = false;
+
+    // Improved scroll handling
+    function smoothScrollTo(target) {
+        if (!target) return;
+        
+        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
+    }
+
+    // More robust click handler
+    document.querySelectorAll('.nav-item').forEach(link => {
+        link.addEventListener('click', e => {
+            const href = link.getAttribute('href');
+            if (!href.startsWith('#') || isAnimating) return;
+            
+            e.preventDefault();
+            isAnimating = true;
+            nav.classList.add('animating');
+
+            // Update URL and prepare for transition
+            history.pushState(null, '', href);
+            html.classList.remove('nav-open');
+            nav.classList.add('closing');
+
+            // Coordinated animation sequence
+            const target = document.querySelector(href);
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    smoothScrollTo(target);
+                    setTimeout(() => {
+                        nav.classList.remove('open', 'closing', 'animating');
+                        isAnimating = false;
+                    }, 400);
+                }, 50);
+            });
+        });
+    });
+
+    // Handle initial hash on page load
+    if (window.location.hash) {
+        const target = document.querySelector(window.location.hash);
+        if (target) {
+            requestAnimationFrame(() => {
+                smoothScrollTo(target);
+            });
+        }
+    }
+});
+</script>
 </body>
 </html>
