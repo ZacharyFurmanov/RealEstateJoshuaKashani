@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 // Increase page size so we can retrieve larger result sets in one request
 // The Agora endpoint currently allows up to 200 without throttling.
-const PAGE_SIZE = 55;
+const PAGE_SIZE = 200;
 const BASE_URL = 'https://www.theagencyre.com/services/agoraGetFeaturedProperties.ashx';
 
 async function fetchByRT(rt, pageNum = 1) {
@@ -74,12 +74,23 @@ async function fetchOptionalRT(rt) {
 async function main() {
   try {
     // Try to pull a past‑rentals feed as well (some agents have it; others don’t)
-    const [current, sold, past, pastLeased] = await Promise.all([
+    const [current, sold, past, pastLeased, comingSoon, pending] = await Promise.all([
       fetchAllByRT('CMNCMN'),
       fetchAllByRT('CMNSLD'),
       fetchAllByRT('PASTTRANSACTIONS'),
-      fetchOptionalRT('PASTLEASED')          // extra feed that often holds “Rented” listings
+      fetchOptionalRT('PASTLEASED'),          // extra feed that often holds “Rented” listings
+      fetchOptionalRT('COMINGSOON'),
+      fetchOptionalRT('PENDING')
     ]);
+
+    console.table({
+      current:     (current.Items     || []).length,
+      sold:        (sold.Items        || []).length,
+      past:        (past.Items        || []).length,
+      pastLeased:  (pastLeased.Items  || []).length,
+      comingSoon:  (comingSoon.Items  || []).length,
+      pending:     (pending.Items     || []).length
+    });
 
     function ensureImage(listing) {
       if (listing.ImageURL) return listing;
@@ -99,11 +110,11 @@ async function main() {
       )
       .map(ensureImage);
 
-    const forSaleHouses = (current.Items || [])
+    const forSaleHouses = [...(current.Items || []), ...(comingSoon.Items || []), ...(pending.Items || [])]
       .filter(
         item =>
           !item.IsRental &&
-          /^active/i.test(item.Status || '')    // includes “Active”, “Active Under Contract”, etc.
+          /^(active|coming soon|pending)/i.test(item.Status || '')
       )
       .map(ensureImage);
 
