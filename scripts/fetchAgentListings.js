@@ -60,10 +60,6 @@ async function fetchAllByRT(rt) {
 }
 
 // Optional Feed Handler
-/**
- * Attempt to fetch an RT that may or may not exist for every agent.
- * Returns an empty object with an empty Items array if the RT is unknown.
- */
 async function fetchOptionalRT(rt) {
   try {
     return await fetchAllByRT(rt);

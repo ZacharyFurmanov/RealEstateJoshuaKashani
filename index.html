@@ -4,8 +4,8 @@
     <meta charset="utf-8"/>
     <title>Joshua Kashani | Estates Agent</title>
     <meta content="Los Angeles real estate runs in Joshua Kashani's DNA. A born‑and‑raised Westsider and USC‑educated Estates Agent, Joshua serves Beverly Hills, Brentwood, Westwood, West Hollywood and Santa Monica." name="description"/>
-    <meta content="http://72.167.220.215/ThumbnailImage.jpeg" property="og:image"/>
-    <meta content="http://72.167.220.215/ThumbnailImage.jpeg" property="twitter:image"/>
+    <meta content="https://kashanihomes.com/ThumbnailImage.jpeg" property="og:image"/>
+    <meta content="https://kashanihomes.com/ThumbnailImage.jpeg" property="twitter:image"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <meta content="Webflow" name="generator"/>
 
@@ -188,7 +188,7 @@
     /* Hero title styling */
     .hero-title {
       text-align: center;
-      font-size: 4.5rem;
+      font-size: 5.175rem;
       font-weight: 700;
       margin: 0;
       line-height: 1.2;
@@ -199,7 +199,7 @@
       font-size: 1.5rem;
       font-weight: 400;
       color: var(--accent-color);
-      margin: 0 0 1.5em;
+      margin: 0.75em 0;
     }
     .hero-subtitle {
       text-align: center;
@@ -545,21 +545,20 @@
     align-items: center;
     gap: 2em;
     flex-wrap: wrap;
-    text-align: left;
+    text-align: center;
+    margin: 0 auto;
   }
   @media (max-width: 767px) {
-    /* Center hero photo + text on phones */
     .hero-wrapper {
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      text-align: center;
-    }
-    .hero-wrapper > div {
       text-align: center;
     }
   }
   .hero-headshot {
-    width: 200px;
-    height: 200px;
+    width: 230px;
+    height: 230px;
     object-fit: cover;
     border-radius: 50%;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
