@@ -24,6 +24,13 @@
       /* keep rounded corners for the Leaflet map so the UI looks the same */
       #map,
       .leaflet-container { border-radius: 8px; }
+      /* Hamburger icon styling */
+      .hamburger-icon {
+        display: inline-block;
+        font-size: 2rem;
+        margin-right: 0.4em;
+        vertical-align: middle;
+      }
     </style>
 
     <!-- Initialize webflow -->
@@ -746,7 +753,9 @@
             </a>
             <div class="menu-button-container">
                 <a data-w-id="1e862bac-001f-3384-7db9-f09a1f5b7226" href="#" class="menu-button w-inline-block">
-                    <div class="text-menu-button">Menu</div>
+                    <div class="text-menu-button">
+                      <span class="hamburger-icon">&#9776;</span>
+                    </div>
                 </a>
             </div>
         </div>
@@ -798,9 +807,9 @@
   <!-- Tab Buttons -->
   <div class="listing-tabs">
     <button class="tab-button active animate delay-0" data-target="rentals">Available Rentals</button>
-    <button class="tab-button animate delay-1"    data-target="leased">Leased Units</button>
-    <button class="tab-button animate delay-2"    data-target="sales">For Sale Houses</button>
-    <button class="tab-button animate delay-3"    data-target="sold">Sold Houses</button>
+    <button class="tab-button animate delay-1" data-target="sales">For Sale Houses</button>
+    <button class="tab-button animate delay-2" data-target="leased">Leased Units</button>
+    <button class="tab-button animate delay-3" data-target="sold">Sold Homes</button>
   </div>
 
   <!-- Panel: Rentals -->
@@ -827,6 +836,34 @@
     <div class="listing-grid"></div>
   </div>
 </section>
+
+<!-- === /Dynamic Listings (Tabbed) === -->
+
+    <!-- Map section -->
+    <section id="map-section" class="map-section scroll-animate">
+      <div class="split-title-wrapper">
+        <h2 class="split-title-1 animate delay-0">Explore on the</h2>
+        <h2 class="split-title-2 animate delay-1"><em>Map</em></h2>
+      </div>
+      <div style="max-width:900px;margin:0 auto 1em;padding:0 1em;">
+        <label style="font-size:1rem;user-select:none;">
+          <input type="checkbox" id="show-sold-checkbox" checked style="margin-right:0.5em;">
+          Show Sold Properties
+        </label>
+      </div>
+      <div class="map-container animate delay-1">
+        <div id="map"></div>
+      </div>
+      <div id="marker-counter" style="display:none;max-width:900px;margin:0 auto 1em;padding:0 1em; font-size:1rem; color:#666;">
+        <span id="unsold-count">Available: 0</span> &nbsp;|&nbsp; 
+        <span id="sold-count">Sold: 0</span>
+      </div>
+      <div class="contact-button-container" style="text-align:center; margin-top:1em;">
+        <a href="mailto:joshkashani@theagencyre.com" class="see-more-reviews">
+          Contact Me
+        </a>
+      </div>
+    </section>
 
     <!-- Reviews section -->
     <section id="reviews-section" class="reviews-section scroll-animate">
@@ -888,33 +925,6 @@
     See More Reviews
   </a>
 </section>
-<!-- === /Dynamic Listings (Tabbed) === -->
-
-    <!-- Map section -->
-    <section id="map-section" class="map-section scroll-animate">
-      <div class="split-title-wrapper">
-        <h2 class="split-title-1 animate delay-0">Explore on the</h2>
-        <h2 class="split-title-2 animate delay-1"><em>Map</em></h2>
-      </div>
-      <div style="max-width:900px;margin:0 auto 1em;padding:0 1em;">
-        <label style="font-size:1rem;user-select:none;">
-          <input type="checkbox" id="show-sold-checkbox" checked style="margin-right:0.5em;">
-          Show Sold Properties
-        </label>
-      </div>
-      <div class="map-container animate delay-1">
-        <div id="map"></div>
-      </div>
-      <div id="marker-counter" style="display:none;max-width:900px;margin:0 auto 1em;padding:0 1em; font-size:1rem; color:#666;">
-        <span id="unsold-count">Available: 0</span> &nbsp;|&nbsp; 
-        <span id="sold-count">Sold: 0</span>
-      </div>
-      <div class="contact-button-container" style="text-align:center; margin-top:1em;">
-        <a href="mailto:joshkashani@theagencyre.com" class="see-more-reviews">
-          Contact Me
-        </a>
-      </div>
-    </section>
 
     <!-- Footer -->
     <footer id="footer" class="site-footer scroll-animate">
