@@ -114,6 +114,10 @@ async function main() {
 
     // Output Generation
     const output = feeds;
+    // Log timestamp
+    const timestampLogPath = path.join(__dirname, 'fetchTimestamps.log');
+    const timestamp = new Date().toISOString();
+    fs.appendFileSync(timestampLogPath, `${timestamp}\n`, 'utf-8');
     const outPath = path.join(__dirname, '../public/listings.json');
     fs.writeFileSync(outPath, JSON.stringify(output, null, 2), 'utf-8');
     console.log(`Wrote ${allListings.length} listings to ${outPath}`);
