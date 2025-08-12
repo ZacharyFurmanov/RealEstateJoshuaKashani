@@ -1,152 +1,172 @@
 <!DOCTYPE html>
+
 <head>
-    <!-- Meta information -->
-    <meta charset="utf-8"/>
-    <title>Joshua Kashani | Estates Agent</title>
-    <meta content="Los Angeles real estate runs in Joshua Kashani's DNA. A born‑and‑raised Westsider and USC‑educated Estates Agent, Joshua serves Beverly Hills, Brentwood, Westwood, West Hollywood and Santa Monica." name="description"/>
-    <meta content="https://kashanihomes.com/ThumbnailImage.jpeg" property="og:image"/>
-    <meta content="https://kashanihomes.com/ThumbnailImage.jpeg" property="twitter:image"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <meta content="Webflow" name="generator"/>
+  <!-- Meta information -->
+  <meta charset="utf-8" />
+  <title>Joshua Kashani | Estates Agent</title>
+  <meta
+    content="Los Angeles real estate runs in Joshua Kashani's DNA. A born‑and‑raised Westsider and USC‑educated Estates Agent, Joshua serves Beverly Hills, Brentwood, Westwood, West Hollywood and Santa Monica."
+    name="description" />
+  <meta content="https://kashanihomes.com/ThumbnailImage.jpeg" property="og:image" />
+  <meta content="https://kashanihomes.com/ThumbnailImage.jpeg" property="twitter:image" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="Webflow" name="generator" />
 
-    <!-- Style imports -->
-    <link href="https://cdn.prod.website-files.com/625e063db7e003e37631375f/css/house-of-rolison.webflow.shared.db0cc398b.css" rel="stylesheet" type="text/css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <!-- Style imports -->
+  <link
+    href="https://cdn.prod.website-files.com/625e063db7e003e37631375f/css/house-of-rolison.webflow.shared.db0cc398b.css"
+    rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
 
-    <!-- Core styles -->
-    <style>
-      .nav-logo {
-        display: block;
-        max-width: 110px;
-        height: auto;
-      }
-      /* keep rounded corners for the Leaflet map so the UI looks the same */
-      #map,
-      .leaflet-container { border-radius: 8px; }
-      /* Hamburger icon styling */
-      .hamburger-icon {
-        display: inline-block;
-        font-size: 2rem;
-        margin-right: 0.4em;
-        vertical-align: middle;
-      }
-    </style>
+  <!-- Core styles -->
+  <style>
+    .nav-logo {
+      display: block;
+      max-width: 110px;
+      height: auto;
+    }
 
-    <!-- Initialize webflow -->
-    <script type="text/javascript">
-    !function(o, c) {
-        var n = c.documentElement,
-            t = " w-mod-";
-        n.className += t + "js",
+    /* keep rounded corners for the Leaflet map so the UI looks the same */
+    #map,
+    .leaflet-container {
+      border-radius: 8px;
+    }
+
+    /* Hamburger icon styling */
+    .hamburger-icon {
+      display: inline-block;
+      font-size: 2rem;
+      margin-right: 0.4em;
+      vertical-align: middle;
+    }
+  </style>
+
+  <!-- Initialize webflow -->
+  <script type="text/javascript">
+    !function (o, c) {
+      var n = c.documentElement,
+        t = " w-mod-";
+      n.className += t + "js",
         ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
     }(window, document);
-    </script>
+  </script>
 
-    <!-- Component styles -->
-    <style>
-  /* Base font from example site */
-  body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  /* Smooth scroll for in-page navigation */
-  html {
-    scroll-behavior: smooth;
-  }
+  <!-- Component styles -->
+  <style>
+    /* Base font from example site */
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
-  /* Reviews Section Styling - Updated */
-  .reviews-section {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto 4em;
-  padding: 3em 1em;
-}
+    /* Smooth scroll for in-page navigation */
+    html {
+      scroll-behavior: smooth;
+    }
 
-.reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5em;
-  margin-top: 1.5em;
-  margin-bottom: 2em;
-}
+    /* Reviews Section Styling - Updated */
+    .reviews-section {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto 4em;
+      padding: 3em 1em;
+    }
 
-.review-card {
-  background: #fff;
-  padding: 1.5em;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-decoration: none;
-  color: inherit;
-}
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5em;
+      margin-top: 1.5em;
+      margin-bottom: 2em;
+    }
 
-.review-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-}
+    .review-card {
+      background: #fff;
+      padding: 1.5em;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
 
-.reviewer-initial {
-  width: 40px;
-  height: 40px;
-  font-size: 1.2rem;
-}
+    .review-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
 
-.reviewer-info h4 {
-  font-size: 1rem;
-}
+    .reviewer-initial {
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+    }
 
-.reviewer-meta {
-  font-size: 0.8rem;
-}
+    .reviewer-info h4 {
+      font-size: 1rem;
+    }
 
-.review-stars {
-  color: gold;
-  margin-top: 0.25em;
-}
+    .reviewer-meta {
+      font-size: 0.8rem;
+    }
 
-
-.review-text {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin: 0;
-  display: block;
-}
-
-  /* --- Review card tweaks (no initial, more compact) --- */
-  .reviewer-initial {
-    display: none !important;   /* hide the big initial circle */
-  }
-  .review-card {
-    padding: 1em;               /* slightly smaller card */
-  }
-  .reviewer-info h4 {
-    font-family: inherit;
-    font-weight: 600;
-    font-size: 1rem;
-  }
+    .review-stars {
+      color: gold;
+      margin-top: 0.25em;
+    }
 
 
-.see-more-reviews {
-  display: block;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 0.8em 2em;
-  background: var(--accent-color);
-  color: white !important;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 2px 8px rgba(181, 94, 49, 0.2);
-}
+    .review-text {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin: 0;
+      display: block;
+    }
 
-.see-more-reviews:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(181, 94, 49, 0.3);
-}
-    :root { --accent-color:#b55e31; }
+    /* --- Review card tweaks (no initial, more compact) --- */
+    .reviewer-initial {
+      display: none !important;
+      /* hide the big initial circle */
+    }
+
+    .review-card {
+      padding: 1em;
+      /* slightly smaller card */
+    }
+
+    .reviewer-info h4 {
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+
+    .see-more-reviews {
+      display: block;
+      width: fit-content;
+      margin: 0 auto;
+      padding: 0.8em 2em;
+      background: var(--accent-color);
+      color: white !important;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 8px rgba(181, 94, 49, 0.2);
+    }
+
+    .see-more-reviews:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(181, 94, 49, 0.3);
+    }
+
+    :root {
+      --accent-color: #b55e31;
+    }
+
     em,
     .split-title-2 em,
     .hero-section-title em,
@@ -155,26 +175,37 @@
     a,
     .square-button-light,
     .square-button-dark {
-      color:var(--accent-color) !important;
-      border-color:var(--accent-color) !important;
+      color: var(--accent-color) !important;
+      border-color: var(--accent-color) !important;
     }
+
     .overlay-button-hover.rectangle,
     .overlay-button-hover,
     .light-overlay,
     .light-overlay.dark {
-      background:var(--accent-color) !important;
+      background: var(--accent-color) !important;
     }
-    a, .square-button-light, .square-button-dark, .oval-button, .nav-item-style {
+
+    a,
+    .square-button-light,
+    .square-button-dark,
+    .oval-button,
+    .nav-item-style {
       transition: all 0.3s ease;
     }
-    .square-button-light:hover, .square-button-dark:hover, .oval-button:hover {
+
+    .square-button-light:hover,
+    .square-button-dark:hover,
+    .oval-button:hover {
       transform: scale(1.05);
     }
+
     .paragraph-l {
       font-size: 1.1rem;
       line-height: 1.4;
       margin-bottom: 0.75em;
     }
+
     .split-title-1 {
       font-size: 1.75rem;
       flex: 0 0 100%;
@@ -183,15 +214,18 @@
       letter-spacing: 0.03em;
       word-spacing: 0.2em;
     }
+
     .hero-section-title {
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     }
+
     /* Ensure hero clear of descenders */
     .hero-section {
       padding-bottom: 4em !important;
       margin-bottom: 2em !important;
       background-color: #f4efe0;
     }
+
     /* Hero title styling */
     .hero-title {
       text-align: center;
@@ -201,6 +235,7 @@
       line-height: 1.2;
       margin-bottom: 0.25rem;
     }
+
     .hero-role {
       text-align: center;
       font-size: 1.5rem;
@@ -208,6 +243,7 @@
       color: var(--accent-color);
       margin: 0.75em 0;
     }
+
     .hero-subtitle {
       text-align: center;
       font-size: 1.18rem;
@@ -220,14 +256,16 @@
     }
 
     .about-section {
-  padding: 2em 1em;
-  max-width: 900px;
-  margin: 0 auto 2em;
-}
+      padding: 2em 1em;
+      max-width: 900px;
+      margin: 0 auto 2em;
+    }
+
     /* .about-details-wrapper flex styling removed to avoid conflict with .about-card */
     .nav-item:hover .nav-item-style {
       color: var(--accent-color);
     }
+
     /* body font-family moved to top for Manrope */
     /* Logo sizing */
     .logo-opened-nav,
@@ -235,6 +273,7 @@
       max-width: 80px !important;
       height: auto !important;
     }
+
     /* Header background */
     .nav-section,
     .opened-nav-wrapper,
@@ -243,274 +282,344 @@
     }
 
     /* === Nav slide‑down animation === */
-    .opened-nav-wrapper{
+    .opened-nav-wrapper {
       transform: translateY(-100%);
       opacity: 0;
       pointer-events: none;
       transition: transform 0.5s ease, opacity 0.5s ease;
     }
-    .nav-section.open .opened-nav-wrapper{
+
+    .nav-section.open .opened-nav-wrapper {
       transform: translateY(0);
       opacity: 1;
       pointer-events: auto;
     }
-    .closed-nav-wrapper{
+
+    .closed-nav-wrapper {
       transition: opacity 0.5s ease;
     }
-.nav-section.open .closed-nav-wrapper{
-  opacity: 0;
-  pointer-events: none;
-}
 
-  /* === Cascading menu‑item animation (updated for seamless transition) === */
-  .nav-items-container a.nav-item {
-    opacity: 0;
-    transform: translateY(20px);  /* reduced from 30px for subtler motion */
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), 
-                opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-  }
-  
-  .nav-section.open .nav-items-container a.nav-item {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    .nav-section.open .closed-nav-wrapper {
+      opacity: 0;
+      pointer-events: none;
+    }
 
-  /* Remove individual item delays for smoother group animation */
-  .secondary-items-container {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1) 0.1s,
-                opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1) 0.1s;
-  }
-  
-  .nav-section.open .secondary-items-container {
-    opacity: 1;
-    transform: translateY(0);
-  }
-.  /* === Full‑screen nav layout (mimics House‑of‑Rolison) === */
-  .nav-section{
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: 1000;
-    overflow: hidden;
-  }
-  /* Small bar (closed state) */
-  .closed-nav-wrapper{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 72px;
-    display: flex;
-    align-items: center;
-    padding: 0 1.25em;
-    box-sizing: border-box;
-  }
-  /* Full menu (opened state) */
-  .opened-nav-wrapper{
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 2.5em 1.25em;
-    box-sizing: border-box;
-  }
-  /* Prevent background scrolling when menu is open */
-  body.nav-open{
-    overflow: hidden;
-  }
-  /* === Listings layout === */
-.listings-section {
-  width: 100%;
-  max-width: 900px !important;
-  margin: 0 auto !important;
-  padding: 4em 1em;
-}
-  .listing-grid {
-    display: grid;
-    /* Use a fixed column width so cards remain the same size, even if fewer items */
-    grid-template-columns: repeat(auto-fill, 240px);
-    justify-content: center;
-    gap: 2em;
-    margin-bottom: 4em;
-  }
+    /* === Cascading menu‑item animation (updated for seamless transition) === */
+    .nav-items-container a.nav-item {
+      opacity: 0;
+      transform: translateY(20px);
+      /* reduced from 30px for subtler motion */
+      transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1),
+        opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .nav-section.open .nav-items-container a.nav-item {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Remove individual item delays for smoother group animation */
+    .secondary-items-container {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1) 0.1s,
+        opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1) 0.1s;
+    }
+
+    .nav-section.open .secondary-items-container {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    
+
+    /* === Full‑screen nav layout (mimics House‑of‑Rolison) === */
+    .nav-section {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 1000;
+      overflow: hidden;
+    }
+
+    /* Small bar (closed state) */
+    .closed-nav-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      padding: 0 1.25em;
+      box-sizing: border-box;
+    }
+
+    /* Full menu (opened state) */
+    .opened-nav-wrapper {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2.5em 1.25em;
+      box-sizing: border-box;
+    }
+
+    /* Prevent background scrolling when menu is open */
+    body.nav-open {
+      overflow: hidden;
+    }
+
+    /* === Listings layout === */
+    .listings-section {
+      width: 100%;
+      max-width: 900px !important;
+      margin: 0 auto !important;
+      padding: 4em 1em;
+    }
+
+    .listing-grid {
+      display: grid;
+      /* Use a fixed column width so cards remain the same size, even if fewer items */
+      grid-template-columns: repeat(auto-fill, 240px);
+      justify-content: center;
+      gap: 2em;
+      margin-bottom: 4em;
+    }
+
     .listing-card {
       background: #fafafa;
       border-radius: 8px;
       padding: 0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
-      opacity:0;
-      transform:translateY(30px);
-      animation:fadeInUp .7s ease forwards;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp .7s ease forwards;
     }
-.listing-card:nth-child(1){ animation-delay:.10s; }
-.listing-card:nth-child(2){ animation-delay:.25s; }
-.listing-card:nth-child(3){ animation-delay:.40s; }
-.listing-card:nth-child(4){ animation-delay:.55s; }
 
-.listing-photo.placeholder {
-  background: #e0e0e0;
-  height: 160px;
-  border-radius: 6px;
-  margin-bottom: 1em;
-}
-.listing-photo img {
-  border-radius: 6px;
-}
-.listing-meta { margin: 0; font-size: .9rem; color: #555; }
+    .listing-card:nth-child(1) {
+      animation-delay: .10s;
+    }
 
-/* Tabs */
-.listing-tabs{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:1em;
-  margin-bottom:2em;
-}
-.tab-button{
-  padding:.5em 1.25em;
-  border:1px solid var(--accent-color);
-  background:#fff;
-  color:var(--accent-color);
-  border-radius:20px;
-  cursor:pointer;
-  transition:all .25s ease;
-}
-.tab-button:hover,
-.tab-button.active{
-  background:var(--accent-color);
-  color:#fff;
-}
+    .listing-card:nth-child(2) {
+      animation-delay: .25s;
+    }
 
-/* Panels */
-.listing-panel{display:none;animation:fadeIn .4s ease forwards;opacity:0}
-.listing-panel.active{display:block;opacity:1}
-@keyframes fadeIn{to{opacity:1}}
+    .listing-card:nth-child(3) {
+      animation-delay: .40s;
+    }
 
-/* Address font fix */
-.listing-address{
-  font-family: inherit;   /* use site default to avoid glyph overlap */
-  font-weight:600;
-  font-size:1.05rem;
-  margin:.5em 0 .25em;
-  line-height:1.3;
-  letter-spacing: 0.03em;
-  word-spacing: 0.2em;
-  word-wrap:break-word;
-}
+    .listing-card:nth-child(4) {
+      animation-delay: .55s;
+    }
 
-/* Panel section titles */
-  .listing-section-title{
-    text-align:center;
-    font-size:2rem;
-    font-weight:700;
-    margin:0 0 1em;
-  }
+    .listing-photo.placeholder {
+      background: #e0e0e0;
+      height: 160px;
+      border-radius: 6px;
+      margin-bottom: 1em;
+    }
 
-  /* Map section styling */
-  .map-section {
-    width: 100%;
-    max-width: 900px !important;
-    margin: 0 auto !important;
-    padding: 4em 1em;
-  }
-  #map {
-    width: 100%;
-    height: 500px;
-    border-radius: 8px;
-  }
+    .listing-photo img {
+      border-radius: 6px;
+    }
 
-/* Footer */
-.site-footer{
-  background:#f4efe0;
-  padding:3em 1em;
-}
-.footer-content{
-  max-width:900px;
-  margin:0 auto;
-  text-align:center;
-}
-.footer-contact{
-  margin-bottom:1.5em;
-  font-size:.95rem;
-}
-.contact-form{
-  display:flex;
-  flex-direction:column;
-  gap:.75em;
-  width:90%;
-  max-width:800px;
-  margin:0 auto 2em;
-}
-.contact-form input,
-.contact-form textarea{
-  padding:.75em 1em;
-  border:1px solid #ccc;
-  border-radius:6px;
-  font-size:1rem;
-}
-.contact-form button{
-  padding:.75em 1em;
-  border:none;
-  background:var(--accent-color);
-  color:#fff;
-  font-size:1rem;
-  border-radius:6px;
-  cursor:pointer;
-  transition:background .25s ease;
-}
-.contact-form button:hover{
-  background:#a00000;
-}
-/* Social media buttons */
-.social-buttons {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1em;
-  margin-bottom: 2em;
-}
-.social-button {
-  background: var(--accent-color) !important;
-  color: #fff !important;
-  text-decoration: none;
-  padding: 0.75em 1.5em;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: inline-block;
-}
-.social-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-.rights{
-  font-size:.85rem;
-  color:#666;
-  margin:0;
-}
-.legal-disclaimer{
-  font-size:0.75rem;
-  line-height:1.4;
-  color:#666;
-  max-width:900px;
-  width: 100%;
-  box-sizing: border-box;
-  overflow-wrap: break-word;
-  padding: 0 1em;
-  margin:1em auto 0;
-}
+    .listing-meta {
+      margin: 0;
+      font-size: .9rem;
+      color: #555;
+    }
+
+    /* Tabs */
+    .listing-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1em;
+      margin-bottom: 2em;
+    }
+
+    .tab-button {
+      padding: .5em 1.25em;
+      border: 1px solid var(--accent-color);
+      background: #fff;
+      color: var(--accent-color);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all .25s ease;
+    }
+
+    .tab-button:hover,
+    .tab-button.active {
+      background: var(--accent-color);
+      color: #fff;
+    }
+
+    /* Panels */
+    .listing-panel {
+      display: none;
+      animation: fadeIn .4s ease forwards;
+      opacity: 0
+    }
+
+    .listing-panel.active {
+      display: block;
+      opacity: 1
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1
+      }
+    }
+
+    /* Address font fix */
+    .listing-address {
+      font-family: inherit;
+      /* use site default to avoid glyph overlap */
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin: .5em 0 .25em;
+      line-height: 1.3;
+      letter-spacing: 0.03em;
+      word-spacing: 0.2em;
+      word-wrap: break-word;
+    }
+
+    /* Panel section titles */
+    .listing-section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 1em;
+    }
+
+    /* Map section styling */
+    .map-section {
+      width: 100%;
+      max-width: 900px !important;
+      margin: 0 auto !important;
+      padding: 4em 1em;
+    }
+
+    #map {
+      width: 100%;
+      height: 500px;
+      border-radius: 8px;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: #f4efe0;
+      padding: 3em 1em;
+    }
+
+    .footer-content {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .footer-contact {
+      margin-bottom: 1.5em;
+      font-size: .95rem;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: .75em;
+      width: 90%;
+      max-width: 800px;
+      margin: 0 auto 2em;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: .75em 1em;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .contact-form button {
+      padding: .75em 1em;
+      border: none;
+      background: var(--accent-color);
+      color: #fff;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .25s ease;
+    }
+
+    .contact-form button:hover {
+      background: #a00000;
+    }
+
+    /* Social media buttons */
+    .social-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1em;
+      margin-bottom: 2em;
+    }
+
+    .social-button {
+      background: var(--accent-color) !important;
+      color: #fff !important;
+      text-decoration: none;
+      padding: 0.75em 1.5em;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: inline-block;
+    }
+
+    .social-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .rights {
+      font-size: .85rem;
+      color: #666;
+      margin: 0;
+    }
+
+    .legal-disclaimer {
+      font-size: 0.75rem;
+      line-height: 1.4;
+      color: #666;
+      max-width: 900px;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-wrap: break-word;
+      padding: 0 1em;
+      margin: 1em auto 0;
+    }
+
     /* === Deluxe entry animations === */
     @keyframes fadeInUp {
-      from { opacity:0; transform:translateY(30px); }
-      to   { opacity:1; transform:translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
+
     /* Door overlay panels */
-    :root { --door-openness: 0; }
+    :root {
+      --door-openness: 0;
+    }
 
     #door {
       position: fixed;
@@ -518,9 +627,11 @@
       z-index: 999;
       pointer-events: none;
     }
+
     body {
       background-color: #f4efe0 !important;
     }
+
     .door-panel {
       position: absolute;
       top: 0;
@@ -530,478 +641,667 @@
       background-size: cover;
       transition: transform 0.2s linear;
     }
+
     .door-panel.left {
       left: 0;
       transform: translateX(calc(-1 * var(--door-openness) * 100%));
     }
+
     .door-panel.right {
       right: 0;
       transform: translateX(calc(var(--door-openness) * 100%));
     }
-    .animate   { opacity:0; transform:translateY(30px); animation:fadeInUp .9s ease forwards; }
-    .delay-0   { animation-delay:0s; }
-    .delay-1   { animation-delay:.15s; }
-    .delay-2   { animation-delay:.30s; }
-    .delay-3   { animation-delay:.45s; }
-    .delay-4   { animation-delay:.60s; }
-    .delay-5   { animation-delay:.75s; }
-    /* body font-family: Arial, sans-serif; removed for Manrope */
-  /* Hero headshot styling */
-  .hero-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2em;
-    text-align: center;
-    margin: 0 auto;
-  }
 
-  @media (max-width: 1024px) {
+    .animate {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp .9s ease forwards;
+    }
+
+    .delay-0 {
+      animation-delay: 0s;
+    }
+
+    .delay-1 {
+      animation-delay: .15s;
+    }
+
+    .delay-2 {
+      animation-delay: .30s;
+    }
+
+    .delay-3 {
+      animation-delay: .45s;
+    }
+
+    .delay-4 {
+      animation-delay: .60s;
+    }
+
+    .delay-5 {
+      animation-delay: .75s;
+    }
+
+    /* body font-family: Arial, sans-serif; removed for Manrope */
+    /* Hero headshot styling */
     .hero-wrapper {
-      flex-direction: column;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1.5em;
+      gap: 2em;
       text-align: center;
+      margin: 0 auto;
     }
-  }
-  .hero-headshot {
-    width: 230px;
-    height: 230px;
-    object-fit: cover;
-    border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
 
-  /* Listing cards as image-cards */
-  .listing-card {
-    background: none;
-    padding: 0;
-    overflow: hidden;
-    position: relative;
-    border-radius: 8px;
-    width: 240px;
-    height: 200px;
-  }
-  .listing-card .listing-photo {
-    width: 100%;
-    height: 160px;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-  }
-  .listing-card .listing-photo.loading {
-    background: #e0e0e0;
-    animation: pulse 1.5s infinite;
-  }
-  .listing-card .listing-photo.loaded {
-    opacity: 1;
-  }
-  @keyframes pulse {
-    0% { background-color: #e0e0e0; }
-    50% { background-color: #f5f5f5; }
-    100% { background-color: #e0e0e0; }
-  }
-  .listing-card .card-overlay {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 1em;
-    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
-    color: #fff;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
-  .listing-card .card-overlay h4,
-  .listing-card .card-overlay p {
-    margin: 0;
-    color: #fff;
-  }
-  .listing-card .card-overlay .link-icon {
-    width: 1.5em;
-    height: 1.5em;
-    border: 1px solid #fff;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    margin-left: 0.5em;
-  }
-  /* Status badge (e.g. “Active Under Contract”, “Leased”) */
-  .status-badge{
-    position:absolute;
-    top:0.5em;
-    left:0.5em;
-    padding:0.25em 0.6em;
-    font-size:0.75rem;
-    font-weight:600;
-    border-radius:4px;
-    color:#fff;
-    z-index:2;
-    pointer-events:none;
-  }
-  .status-badge.under-contract{ background:var(--accent-color); }
-  .status-badge.leased{ background:#000; opacity:0.85; }
-  /* Generic banner badge (Coming Soon, In Escrow, etc.) */
-  .status-badge.banner{ background:var(--accent-color); }
-  /* === Split titles (à la House of Rolison) === */
-  .split-title-wrapper {
-    display: grid;
-    grid-template-columns: 1fr;
-    row-gap: 0.25em;
-    margin-bottom: 2em;
-  }
-  .split-title-1,
-  .split-title-2 {
-    font-family: 'Playfair Display', 'Times New Roman', serif;
-    font-size: clamp(2.5rem, 6vw, 5rem);   /* fluid size similar to HOR */
-    font-weight: 400;
-    line-height: 1.1;
-    margin: 0;
-    letter-spacing: 0.015em;
-  }
-  .split-title-2 em {
-    font-style: italic;
-  }
-  .split-title-2 {
-    text-align: right;
-    white-space: nowrap;     /* keeps the italic word on a single line */
-    display: inline-block;
-    transform-origin: left;
-  }
-@media (max-width: 768px) {
-  .split-title-1,
-  .split-title-2 {
-    font-size: clamp(1.75rem, 6vw, 2.5rem);
-  }
-  .split-title-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-@media (max-width: 480px) {
-  .hero-subtitle {
-    font-size: 0.98rem;
-  }
-}
-</style>
-<style>
-@media (max-width: 600px) {
-  .listing-grid {
-    grid-template-columns: 1fr !important;
-    gap: 1em;
-  }
-  .listing-card {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    height: auto !important;
-  }
-  #map {
-    min-height: 350px !important;
-    height: 50vw !important;
-    max-height: 60vw;
-  }
-}
-</style>
-</head>
-<body class="body-default">
-    <!-- Navigation -->
-    <div id="Top-Nav" data-w-id="1e862bac-001f-3384-7db9-f09a1f5b71f0" class="nav-section">
-    <div class="opened-nav-wrapper">
-        <div class="top-content-container">
-            <div class="logo-text-container">
-            </div>
-            <div data-w-id="1e862bac-001f-3384-7db9-f09a1f5b7204" class="close-button-container">
-                <div class="menu-button opened">
-                    <div class="text-menu-button light">Close</div>
-                </div>
-            </div>
-        </div>
-        <div class="nav-items-container">
-            <a data-w-id="32f25c04-7464-55bf-59cf-169b50ec5f33" href="/" aria-current="page" class="nav-item w-inline-block w--current">
-                <div class="light-overlay menu"></div>
-                <div data-w-id="32f25c04-7464-55bf-59cf-169b50ec5f35" class="nav-item-style">Home</div>
-            </a>
-            <div class="divider-line"></div>
-            <a href="#listings-section" class="nav-item w-inline-block">
-                <div class="light-overlay menu"></div>
-                <div data-w-id="1e862bac-001f-3384-7db9-f09a1f5b71f9" class="nav-item-style">Projects</div>
-            </a>
-            <div class="divider-line"></div>
-            <a href="#footer" class="nav-item w-inline-block">
-                <div class="light-overlay menu"></div>
-                <div data-w-id="10308355-862e-c2d9-75c1-982aa2e1c022" class="nav-item-style">Contact Me</div>
-            </a>
-            <div class="divider-line"></div>
-            <a href="#reviews-section" class="nav-item w-inline-block">
-                <div class="light-overlay menu"></div>
-                <div data-w-id="1e862bac-001f-3384-7db9-f09a1f5b7201" class="nav-item-style">Reviews</div>
-            </a>
-            <div class="divider-line"></div>
-        </div>
-        <div class="secondary-items-container">
-        </div>
-    </div>
-    <div data-w-id="1e862bac-001f-3384-7db9-f09a1f5b7220" class="closed-nav-wrapper">
-        <div class="closed-nav-container">
-            <a href="/" aria-current="page" class="logo-container w-inline-block w--current">
-              <img src="logo.png" alt="Joshua Kashani Logo" class="nav-logo" style="width: 72px; height: auto;">
-            </a>
-            <div class="menu-button-container">
-                <a data-w-id="1e862bac-001f-3384-7db9-f09a1f5b7226" href="#" class="menu-button w-inline-block">
-                    <div class="text-menu-button">
-                      <span class="hamburger-icon">&#9776;</span>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <!-- Hero section -->
-    <div data-w-id="9078b87d-f5f0-5346-1487-3613bf5de07e" class="hero-section scroll-animate">
-      <div class="hero-wrapper w-container">
-        <img src="headshot.jpg" alt="Joshua Kashani" class="hero-headshot scroll-animate delay-0">
-        <div>
-          <h1 class="hero-title animate delay-1">Joshua Kashani</h1>
-          <p class="hero-role animate delay-2">Estates Agent</p>
-          <p class="hero-subtitle animate delay-3"><a href="mailto:joshkashani@theagencyre.com">joshkashani@theagencyre.com</a>&nbsp;|&nbsp;+1&nbsp;(310)&nbsp;779‑1995</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- About section -->
-    <section class="about-section scroll-animate">
-            <div class="split-title-wrapper">
-                <h2 class="split-title-1">Learn</h2>
-                <h2 class="split-title-2"><em>About&nbsp;Me</em></h2>
-            </div>
-      <div class="about-details-wrapper">
-        <div class="biography-section">
-          <p class="paragraph-l animate delay-1">
-            Los Angeles real estate runs in Joshua Kashani’s DNA. A born-and-raised Westsider with family ties in the real estate business and a strong educational foundation from USC’s Real Estate Development program, Joshua Kashani combines deep-rooted local expertise, industry knowledge, and a multimillion-dollar track record of success. Representing The Agency, Joshua serves clients across the city, specializing in Beverly Hills, Westwood, West Hollywood, Santa Monica, and his hometown of Brentwood.
-          </p>
-          <p class="paragraph-l animate delay-2">
-            Joshua jump-started his career as an agent by managing every kind of transaction, from commercial deals and multi-family investment properties to a range of long- and short-term leases, but found an affinity in assisting first-time homebuyers and other long-time Angelenos secure the perfect home. He leverages his lifetime of community knowledge to guide each client to a property perfectly tailored to their unique needs and lifestyle—all the while standing out from the crowded field of agents with his candor, charisma and sense of humor.
-          </p>
-          <p class="paragraph-l animate delay-3">
-            Prior to real estate, Joshua worked as a business development consultant at Oracle and quickly cemented his status as a top producer for multiple consecutive quarters. He also worked in sales at a tech startup that aimed to revolutionize restaurant operations before bringing his passion for networking, negotiations and personal development to the real estate industry.
-          </p>
-          <p class="paragraph-l animate delay-4">
-            Joshua graduated from USC Sol Price School of Public Policy and Milken Community School. When he isn’t touring properties or thoughtfully expanding his professional network, Joshua can usually be found refreshing stock market news and watching or playing basketball. And as much as he loves his hometown, he loves to travel and explore different parts of the world.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- === Dynamic Listings (Tabbed) === -->
-<section id="listings-section" class="listings-section scroll-animate">
-  <div class="split-title-wrapper">
-    <h2 id="panel-title-line1" class="split-title-1 animate">Some of our latest</h2>
-    <h2 id="panel-title-line2" class="split-title-2 animate"><em>Projects</em></h2>
-  </div>
-  <!-- Tab Buttons -->
-  <div class="listing-tabs">
-    <button class="tab-button active animate delay-0" data-target="rentals">Available Rentals</button>
-    <button class="tab-button animate delay-1" data-target="sales">For Sale Houses</button>
-    <button class="tab-button animate delay-2" data-target="leased">Leased Units</button>
-    <button class="tab-button animate delay-3" data-target="sold">Sold Homes</button>
-  </div>
-
-  <!-- Panel: Rentals -->
-  <div class="listing-panel active" id="panel-rentals">
-    <h3 class="listing-section-title">Available Rentals</h3>
-    <div class="listing-grid"></div>
-  </div>
-
-  <!-- Panel: Leased -->
-  <div class="listing-panel" id="panel-leased">
-    <h3 class="listing-section-title">Leased Units</h3>
-    <div class="listing-grid"></div>
-  </div>
-
-  <!-- Panel: Sales -->
-  <div class="listing-panel" id="panel-sales">
-    <h3 class="listing-section-title">For Sale Houses</h3>
-    <div class="listing-grid"></div>
-  </div>
-
-  <!-- Panel: Sold -->
-  <div class="listing-panel" id="panel-sold">
-    <h3 class="listing-section-title">Sold Houses</h3>
-    <div class="listing-grid"></div>
-  </div>
-</section>
-
-<!-- === /Dynamic Listings (Tabbed) === -->
-
-    <!-- Map section -->
-    <section id="map-section" class="map-section scroll-animate">
-      <div class="split-title-wrapper">
-        <h2 class="split-title-1 animate delay-0">Explore on the</h2>
-        <h2 class="split-title-2 animate delay-1"><em>Map</em></h2>
-      </div>
-      <div style="max-width:900px;margin:0 auto 1em;padding:0 1em;">
-        <label style="font-size:1rem;user-select:none;">
-          <input type="checkbox" id="show-sold-checkbox" checked style="margin-right:0.5em;">
-          Show Sold Properties
-        </label>
-      </div>
-      <div class="map-container animate delay-1">
-        <div id="map"></div>
-      </div>
-      <div id="marker-counter" style="display:none;max-width:900px;margin:0 auto 1em;padding:0 1em; font-size:1rem; color:#666;">
-        <span id="unsold-count">Available: 0</span> &nbsp;|&nbsp; 
-        <span id="sold-count">Sold: 0</span>
-      </div>
-      <div class="contact-button-container" style="text-align:center; margin-top:1em;">
-        <a href="mailto:joshkashani@theagencyre.com" class="see-more-reviews">
-          Contact Me
-        </a>
-      </div>
-    </section>
-
-    <!-- Reviews section -->
-    <section id="reviews-section" class="reviews-section scroll-animate">
-  <div class="split-title-wrapper">
-    <h2 class="split-title-1 animate">Client</h2>
-    <h2 class="split-title-2 animate"><em>Reviews</em></h2>
-  </div>
-  
-  <div class="reviews-grid">
-    <!-- Review 1 -->
-    <a href="https://www.google.com/maps/place/Joshua+Kashani+Real+Estate+Agent+At+The+Agency/@34.0204789,-118.4117326,10z/data=!4m8!3m7!1s0x29b5c568f43cec29:0x64ff2d3817e7ae1d!8m2!3d34.020479!4d-118.4117326!9m1!1b1!16s%2Fg%2F11m603wyvj?entry=ttu&g_ep=EgoyMDI1MDYwNC4wIKXMDSoASAFQAw%3D%3D" 
-       target="_blank" 
-       class="review-card animate delay-0">
-      <div class="review-header">
-        <div class="reviewer-initial">A</div>
-        <div class="reviewer-info">
-          <h4>Aaron Mashian</h4>
-          <div class="reviewer-meta">2 months ago</div>
-          <div class="review-stars">★★★★★</div>
-        </div>
-      </div>
-      <p class="review-text">Josh's deep market knowledge, diligence and attention to detail are truly a cut above any other agent I've worked with. He made the entire process run smoothly and stress-free while always remaining professional and approachable. I can't recommend him enough!</p>
-    </a>
-
-    <!-- Review 2 -->
-    <a href="https://www.google.com/maps/place/Joshua+Kashani+Real+Estate+Agent+At+The+Agency/@34.0204789,-118.4117326,10z/data=!4m8!3m7!1s0x29b5c568f43cec29:0x64ff2d3817e7ae1d!8m2!3d34.020479!4d-118.4117326!9m1!1b1!16s%2Fg%2F11m603wyvj?entry=ttu&g_ep=EgoyMDI1MDYwNC4wIKXMDSoASAFQAw%3D%3D" 
-       target="_blank" 
-       class="review-card animate delay-1">
-      <div class="review-header">
-        <div class="reviewer-initial">B</div>
-        <div class="reviewer-info">
-          <h4>Brandon Younesi</h4>
-          <div class="reviewer-meta">2 months ago</div>
-          <div class="review-stars">★★★★★</div>
-        </div>
-      </div>
-      <p class="review-text">Joshua Kashani has been nothing short of amazing. He helped me find a perfect tenant for my apartment rental and made the process both fun and easy. Prior to hiring Josh I couldn't find anyone to rent my place but once I hired him he found a tenant within the first week. I can't thank him and his team enough for all their help. I'll definitely be giving him my future vacancies.</p>
-    </a>
-
-    <!-- Review 3 -->
-    <a href="https://www.google.com/maps/place/Joshua+Kashani+Real+Estate+Agent+At+The+Agency/@34.0204789,-118.4117326,10z/data=!4m8!3m7!1s0x29b5c568f43cec29:0x64ff2d3817e7ae1d!8m2!3d34.020479!4d-118.4117326!9m1!1b1!16s%2Fg%2F11m603wyvj?entry=ttu&g_ep=EgoyMDI1MDYwNC4wIKXMDSoASAFQAw%3D%3D" 
-       target="_blank" 
-       class="review-card animate delay-2">
-      <div class="review-header">
-        <div class="reviewer-initial">J</div>
-        <div class="reviewer-info">
-          <h4>Joubin Sedgh</h4>
-          <div class="reviewer-meta">2 months ago</div>
-          <div class="review-stars">★★★★★</div>
-        </div>
-      </div>
-      <p class="review-text">Josh was an absolute game-changer in leasing our property, securing us a full asking price when our previous agent couldn't. His expertise, dedication, and strategic approach made all the difference in getting the deal done smoothly. If you're looking for a top-tier real estate professional who delivers results and will always pick up the phone, reach out to Josh!</p>
-    </a>
-  </div>
-  
-  <a href="https://www.google.com/maps/place/Joshua+Kashani+Real+Estate+Agent+At+The+Agency/@34.0204789,-118.4117326,10z/data=!4m8!3m7!1s0x29b5c568f43cec29:0x64ff2d3817e7ae1d!8m2!3d34.020479!4d-118.4117326!9m1!1b1!16s%2Fg%2F11m603wyvj?entry=ttu&g_ep=EgoyMDI1MDYwNC4wIKXMDSoASAFQAw%3D%3D" 
-     target="_blank" 
-     class="see-more-reviews animate delay-3">
-    See More Reviews
-  </a>
-</section>
-
-    <!-- Footer -->
-    <footer id="footer" class="site-footer scroll-animate">
-      <div class="footer-content">
-        <p class="footer-contact animate delay-0">
-          DRE# 02102256 (CA) &nbsp;|&nbsp; Email: <a href="mailto:joshkashani@theagencyre.com">joshkashani@theagencyre.com</a> &nbsp;|&nbsp; Phone: +1&nbsp;(310)&nbsp;779‑1995
-        </p>
-        <div class="social-buttons animate delay-1">
-          <a href="https://www.instagram.com/kashanihomes?igsh=NTc4MTIwNjQ2YQ==" target="_blank" class="social-button">Instagram</a>
-          <a href="https://www.linkedin.com/in/joshua-kashani-527232159/" target="_blank" class="social-button">LinkedIn</a>
-          <a href="https://www.theagencyre.com/agent/joshua-kashani" target="_blank" class="social-button">The&nbsp;Agency</a>
-        </div>
-        <p class="rights animate delay-2">© 2025 Joshua Kashani. All rights reserved.</p>
-      </div>
-    </footer>
-
-    <!-- Script imports -->
-    <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=625e063db7e003e37631375f" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="https://cdn.prod.website-files.com/625e063db7e003e37631375f/js/webflow.schunk.4a394eb5af8156f2.js" type="text/javascript"></script>
-    <script src="https://cdn.prod.website-files.com/625e063db7e003e37631375f/js/webflow.schunk.7474359a2d8661da.js" type="text/javascript"></script>
-    <script src="https://cdn.prod.website-files.com/625e063db7e003e37631375f/js/webflow.88defdb0.ac051af72f9a6daf.js" type="text/javascript"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-
-    <!-- Core functionality -->
-    <script>
-// Ensure second split‑title line stretches to match the first
-function fitSplitTitles() {
-  document.querySelectorAll('.split-title-wrapper').forEach(wrapper => {
-    const l1 = wrapper.querySelector('.split-title-1');
-    const l2 = wrapper.querySelector('.split-title-2');
-    if (l1 && l2) {
-      const w1 = l1.offsetWidth;
-      const w2 = l2.offsetWidth;
-      if (w2 > 0) {
-        l2.style.transform = 'scaleX(' + (w1 / w2) + ')';
+    @media (max-width: 1024px) {
+      .hero-wrapper {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5em;
+        text-align: center;
       }
     }
-  });
-}
-// Re‑fit on load and resize
-window.addEventListener('load',   fitSplitTitles);
-window.addEventListener('resize', fitSplitTitles);
 
-document.querySelectorAll('.tab-button').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    // activate button
-    document.querySelectorAll('.tab-button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    // show matching panel
-    const target='panel-'+btn.dataset.target;
-    document.querySelectorAll('.listing-panel').forEach(p=>{
-      p.classList.toggle('active', p.id===target);
-    });
-    const titleMap = {
-      rentals: ['Available','Rentals'],
-      leased:  ['Leased','Units'],
-      sales:   ['Available','Sales'],
-      sold:    ['Sold','Houses']
-    };
-    const parts = titleMap[btn.dataset.target];
-    const line1El = document.getElementById('panel-title-line1');
-    const line2El = document.getElementById('panel-title-line2');
-    line1El.textContent = parts[0];
-    line2El.innerHTML  = '<em>' + parts[1] + '</em>';
+    .hero-headshot {
+      width: 230px;
+      height: 230px;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
 
-    // Restart the entry animation for a smooth “flow‑in” effect
-    [line1El, line2El].forEach(el => {
-      el.classList.remove('animate');
-      void el.offsetWidth;          // force reflow
-      el.classList.add('animate');  // re‑apply animation
+    /* Listing cards as image-cards */
+    .listing-card {
+      background: none;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      border-radius: 8px;
+      width: 240px;
+      height: 200px;
+    }
+
+    .listing-card .listing-photo {
+      width: 100%;
+      height: 160px;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .listing-card .listing-photo.loading {
+      background: #e0e0e0;
+      animation: pulse 1.5s infinite;
+    }
+
+    .listing-card .listing-photo.loaded {
+      opacity: 1;
+    }
+
+    @keyframes pulse {
+      0% {
+        background-color: #e0e0e0;
+      }
+
+      50% {
+        background-color: #f5f5f5;
+      }
+
+      100% {
+        background-color: #e0e0e0;
+      }
+    }
+
+    .listing-card .card-overlay {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 1em;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+      color: #fff;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .listing-card .card-overlay h4,
+    .listing-card .card-overlay p {
+      margin: 0;
+      color: #fff;
+    }
+
+    .listing-card .card-overlay .link-icon {
+      width: 1.5em;
+      height: 1.5em;
+      border: 1px solid #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-left: 0.5em;
+    }
+
+    /* Status badge (e.g. “Active Under Contract”, “Leased”) */
+    .status-badge {
+      position: absolute;
+      top: 0.5em;
+      left: 0.5em;
+      padding: 0.25em 0.6em;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 4px;
+      color: #fff;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .status-badge.under-contract {
+      background: var(--accent-color);
+    }
+
+    .status-badge.leased {
+      background: #000;
+      opacity: 0.85;
+    }
+
+    /* Generic banner badge (Coming Soon, In Escrow, etc.) */
+    .status-badge.banner {
+      background: var(--accent-color);
+    }
+
+    /* === Split titles (à la House of Rolison) === */
+    .split-title-wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      row-gap: 0.25em;
+      margin-bottom: 2em;
+    }
+
+    .split-title-1,
+    .split-title-2 {
+      font-family: 'Playfair Display', 'Times New Roman', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      /* fluid size similar to HOR */
+      font-weight: 400;
+      line-height: 1.1;
+      margin: 0;
+      letter-spacing: 0.015em;
+    }
+
+    .split-title-2 em {
+      font-style: italic;
+    }
+
+    .split-title-2 {
+      text-align: right;
+      white-space: nowrap;
+      /* keeps the italic word on a single line */
+      display: inline-block;
+      transform-origin: left;
+    }
+
+    @media (max-width: 768px) {
+
+      .split-title-1,
+      .split-title-2 {
+        font-size: clamp(1.75rem, 6vw, 2.5rem);
+      }
+
+      .split-title-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-subtitle {
+        font-size: 0.98rem;
+      }
+    }
+  </style>
+  <style>
+    @media (max-width: 600px) {
+      .listing-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1em;
+      }
+
+      .listing-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+      }
+
+      #map {
+        min-height: 350px !important;
+        height: 50vw !important;
+        max-height: 60vw;
+      }
+    }
+  </style>
+  <style>
+  /* === New simple sticky nav (replaces old overlay nav) === */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    left: 0; right: 0; width: 100%;
+    z-index: 1000;
+    background: #f4efe0;
+    border-bottom: 0 !important; /* remove gray line */
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    box-shadow: none; /* will appear only after scroll */
+  }
+  .site-nav.is-scrolled {
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+    border-bottom: 0; /* keep line hidden */
+    backdrop-filter: saturate(140%) contrast(105%);
+  }
+  header.site-nav + .hero-section,
+  header.site-nav + * { border-top: 0 !important; }
+  header.site-nav + hr { display: none !important; }
+  .site-nav .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .6em 1.25em;
+    box-sizing: border-box;
+  }
+  .site-nav .main-nav-links { display: flex; align-items: center; gap: 1.25em; }
+
+  /* Links + buttons in the nav */
+  .site-nav .main-nav__link,
+  .site-nav .main-nav__toggle {
+    font: inherit;
+    font-weight: 600;
+    letter-spacing: 0; /* ensure normal spacing */
+    font-variant-ligatures: none;
+    background: none;
+    border: none;
+    color: #222 !important; /* override global link color */
+    cursor: pointer;
+    text-decoration: none;
+    padding: .4em .2em;
+    line-height: 1.1;
+  }
+  .site-nav .main-nav__link:hover,
+  .site-nav .main-nav__toggle:hover { color: var(--accent-color) !important; }
+
+  /* Dropdown */
+  .site-nav .main-nav__item.has-dropdown { position: relative; }
+  .site-nav .main-nav__menu {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 100%; /* no gap to prevent hover drop */
+    transform: translateX(-56%); /* slight left shift so panel sits a bit left of center */
+    width: min(90vw, 560px); /* keep within viewport */
+    background: #fff;
+    border: 2.5px solid var(--accent-color);
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(181, 94, 49, .18);
+    padding: 1rem;
+  }
+  /* Hover bridge so menu stays open when moving cursor from button into panel */
+  .site-nav .main-nav__menu::before {
+    content: "";
+    position: absolute;
+    top: -8px; /* extend upward to cover any sliver between button and menu */
+    left: 0;
+    right: 0;
+    height: 8px;
+  }
+  .site-nav .main-nav__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.25rem; }
+  .site-nav .main-nav__heading { font-weight: 700; color: var(--accent-color); margin: 0 0 .25rem; }
+  .site-nav .main-nav__submenu-link {
+    display: block; width: 100%; text-align: left; font: inherit; color: #222;
+    background: none; border: 1px solid transparent; padding: .75em 1em; border-radius: 10px; cursor: pointer;
+    transition: background .18s, color .18s, border-color .18s;
+  }
+  .site-nav .main-nav__submenu-link:hover,
+  .site-nav .main-nav__submenu-link:focus-visible { background: #f4efe0; color: var(--accent-color); border-color: rgba(181,94,49,.3); outline: none; }
+
+  /* Show dropdown on hover or focus (desktop) */
+  .site-nav .main-nav__item.has-dropdown:hover > .main-nav__menu,
+  .site-nav .main-nav__item.has-dropdown:focus-within > .main-nav__menu { display: block; }
+
+  /* Burger + mobile layout */
+  .site-nav .main-nav__burger { display: none; background: none; border: none; font-size: 1.75rem; line-height: 1; }
+  @media (max-width: 900px) {
+    .site-nav .main-nav__burger { display: block; }
+    .site-nav .main-nav-links { display: none; }
+    .site-nav.open .main-nav-links { display: flex; flex-direction: column; align-items: stretch; gap: .25rem; padding: .5rem 0; }
+    .site-nav .main-nav__item.has-dropdown { width: 100%; }
+    .site-nav .main-nav__menu {
+      position: static;
+      width: auto;
+      transform: none;
+      margin-top: .25rem;
+      border-radius: 10px;
+      box-shadow: none;
+      padding: .5rem;
+      display: none;
+    }
+    .site-nav .main-nav__grid { grid-template-columns: 1fr; }
+    .site-nav .main-nav__item.has-dropdown.open > .main-nav__menu { display: block; }
+  }
+  </style>
+</head>
+<body class="body-default">
+  <!-- Navigation -->
+  <header id="Top-Nav" class="site-nav">
+    <div class="nav-inner">
+      <a href="/" class="logo-container">
+        <img src="logo.png" alt="Joshua Kashani Logo" class="nav-logo" style="width:72px;height:auto;" />
+      </a>
+
+      <nav class="main-nav-links" aria-label="Primary">
+        <a href="/" class="main-nav__link">Home</a>
+
+        <div class="main-nav__item has-dropdown" id="projects-dropdown">
+          <button class="main-nav__toggle" aria-haspopup="true" aria-expanded="false">Properties</button>
+          <div class="main-nav__menu" role="menu" aria-label="Projects submenu">
+            <div class="main-nav__grid">
+              <div>
+                <div class="main-nav__heading">Available</div>
+                <button class="main-nav__submenu-link" role="menuitem" data-tab="sales" data-target="#listings-section">Available for Sale</button>
+                <button class="main-nav__submenu-link" role="menuitem" data-tab="rentals" data-target="#listings-section">Available for Lease</button>
+              </div>
+              <div>
+                <div class="main-nav__heading">Sold</div>
+                <button class="main-nav__submenu-link" role="menuitem" data-tab="sold" data-target="#listings-section">Closed Houses</button>
+                <button class="main-nav__submenu-link" role="menuitem" data-tab="leased" data-target="#listings-section">Closed Leases</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#reviews-section" class="main-nav__link">Reviews</a>
+        <a href="#footer" class="main-nav__link">Contact</a>
+      </nav>
+
+      <button class="main-nav__burger" aria-label="Toggle menu" aria-controls="Top-Nav" aria-expanded="false">&#9776;</button>
+    </div>
+  </header>
+
+  <!-- Hero section -->
+  <div data-w-id="9078b87d-f5f0-5346-1487-3613bf5de07e" class="hero-section scroll-animate">
+    <div class="hero-wrapper w-container">
+      <img src="headshot.jpg" alt="Joshua Kashani" class="hero-headshot scroll-animate delay-0">
+      <div>
+        <h1 class="hero-title animate delay-1">Joshua Kashani</h1>
+        <p class="hero-role animate delay-2">Estates Agent</p>
+        <p class="hero-subtitle animate delay-3"><a
+            href="mailto:joshkashani@theagencyre.com">joshkashani@theagencyre.com</a>&nbsp;|&nbsp;+1&nbsp;(310)&nbsp;779‑1995
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- About section -->
+  <section class="about-section scroll-animate">
+    <div class="split-title-wrapper">
+      <h2 class="split-title-1">Learn</h2>
+      <h2 class="split-title-2"><em>About&nbsp;Me</em></h2>
+    </div>
+    <div class="about-details-wrapper">
+      <div class="biography-section">
+        <p class="paragraph-l animate delay-1">
+          Los Angeles real estate runs in Joshua Kashani’s DNA. A born-and-raised Westsider with family ties in the real
+          estate business and a strong educational foundation from USC’s Real Estate Development program, Joshua Kashani
+          combines deep-rooted local expertise, industry knowledge, and a multimillion-dollar track record of success.
+          Representing The Agency, Joshua serves clients across the city, specializing in Beverly Hills, Westwood, West
+          Hollywood, Santa Monica, and his hometown of Brentwood.
+        </p>
+        <p class="paragraph-l animate delay-2">
+          Joshua jump-started his career as an agent by managing every kind of transaction, from commercial deals and
+          multi-family investment properties to a range of long- and short-term leases, but found an affinity in
+          assisting first-time homebuyers and other long-time Angelenos secure the perfect home. He leverages his
+          lifetime of community knowledge to guide each client to a property perfectly tailored to their unique needs
+          and lifestyle—all the while standing out from the crowded field of agents with his candor, charisma and sense
+          of humor.
+        </p>
+        <p class="paragraph-l animate delay-3">
+          Prior to real estate, Joshua worked as a business development consultant at Oracle and quickly cemented his
+          status as a top producer for multiple consecutive quarters. He also worked in sales at a tech startup that
+          aimed to revolutionize restaurant operations before bringing his passion for networking, negotiations and
+          personal development to the real estate industry.
+        </p>
+        <p class="paragraph-l animate delay-4">
+          Joshua graduated from USC Sol Price School of Public Policy and Milken Community School. When he isn’t touring
+          properties or thoughtfully expanding his professional network, Joshua can usually be found refreshing stock
+          market news and watching or playing basketball. And as much as he loves his hometown, he loves to travel and
+          explore different parts of the world.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- === Dynamic Listings (Tabbed) === -->
+  <section id="listings-section" class="listings-section scroll-animate">
+    <div class="split-title-wrapper">
+      <h2 id="panel-title-line1" class="split-title-1 animate">Some of our latest</h2>
+      <h2 id="panel-title-line2" class="split-title-2 animate"><em>Projects</em></h2>
+    </div>
+    <!-- Tab Buttons -->
+    <div class="listing-tabs">
+      <button class="tab-button active animate delay-0" data-target="rentals">Available Rentals</button>
+      <button class="tab-button animate delay-1" data-target="sales">For Sale Houses</button>
+      <button class="tab-button animate delay-2" data-target="leased">Leased Units</button>
+      <button class="tab-button animate delay-3" data-target="sold">Sold Homes</button>
+    </div>
+
+    <!-- Panel: Rentals -->
+    <div class="listing-panel active" id="panel-rentals">
+      <h3 class="listing-section-title">Available Rentals</h3>
+      <div class="listing-grid"></div>
+    </div>
+
+    <!-- Panel: Leased -->
+    <div class="listing-panel" id="panel-leased">
+      <h3 class="listing-section-title">Leased Units</h3>
+      <div class="listing-grid"></div>
+    </div>
+
+    <!-- Panel: Sales -->
+    <div class="listing-panel" id="panel-sales">
+      <h3 class="listing-section-title">For Sale Houses</h3>
+      <div class="listing-grid"></div>
+    </div>
+
+    <!-- Panel: Sold -->
+    <div class="listing-panel" id="panel-sold">
+      <h3 class="listing-section-title">Sold Houses</h3>
+      <div class="listing-grid"></div>
+    </div>
+  </section>
+
+  <!-- === /Dynamic Listings (Tabbed) === -->
+
+  <!-- Map section -->
+  <section id="map-section" class="map-section scroll-animate">
+    <div class="split-title-wrapper">
+      <h2 class="split-title-1 animate delay-0">Explore on the</h2>
+      <h2 class="split-title-2 animate delay-1"><em>Map</em></h2>
+    </div>
+    <div style="max-width:900px;margin:0 auto 1em;padding:0 1em;">
+      <label style="font-size:1rem;user-select:none;">
+        <input type="checkbox" id="show-sold-checkbox" checked style="margin-right:0.5em;">
+        Show Sold Properties
+      </label>
+    </div>
+    <div class="map-container animate delay-1">
+      <div id="map"></div>
+    </div>
+    <div id="marker-counter"
+      style="display:none;max-width:900px;margin:0 auto 1em;padding:0 1em; font-size:1rem; color:#666;">
+      <span id="unsold-count">Available: 0</span> &nbsp;|&nbsp;
+      <span id="sold-count">Sold: 0</span>
+    </div>
+    <div class="contact-button-container" style="text-align:center; margin-top:1em;">
+      <a href="mailto:joshkashani@theagencyre.com" class="see-more-reviews">
+        Contact Me
+      </a>
+    </div>
+  </section>
+
+  <!-- Reviews section -->
+  <section id="reviews-section" class="reviews-section scroll-animate">
+    <div class="split-title-wrapper">
+      <h2 class="split-title-1 animate">Client</h2>
+      <h2 class="split-title-2 animate"><em>Reviews</em></h2>
+    </div>
+
+    <div class="reviews-grid">
+      <!-- Review 1 -->
+      <a href="https://www.google.com/maps/place/Joshua+Kashani+Real+Estate+Agent+At+The+Agency/@34.0204789,-118.4117326,10z/data=!4m8!3m7!1s0x29b5c568f43cec29:0x64ff2d3817e7ae1d!8m2!3d34.020479!4d-118.4117326!9m1!1b1!16s%2Fg%2F11m603wyvj?entry=ttu&g_ep=EgoyMDI1MDYwNC4wIKXMDSoASAFQAw%3D%3D"
+        target="_blank" class="review-card animate delay-0">
+        <div class="review-header">
+          <div class="reviewer-initial">A</div>
+          <div class="reviewer-info">
+            <h4>Aaron Mashian</h4>
+            <div class="reviewer-meta">2 months ago</div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+        </div>
+        <p class="review-text">Josh's deep market knowledge, diligence and attention to detail are truly a cut above any
+          other agent I've worked with. He made the entire process run smoothly and stress-free while always remaining
+          professional and approachable. I can't recommend him enough!</p>
+      </a>
+
+      <!-- Review 2 -->
+      <a href="https://www.google.com/maps/place/Joshua+Kashani+Real+Estate+Agent+At+The+Agency/@34.0204789,-118.4117326,10z/data=!4m8!3m7!1s0x29b5c568f43cec29:0x64ff2d3817e7ae1d!8m2!3d34.020479!4d-118.4117326!9m1!1b1!16s%2Fg%2F11m603wyvj?entry=ttu&g_ep=EgoyMDI1MDYwNC4wIKXMDSoASAFQAw%3D%3D"
+        target="_blank" class="review-card animate delay-1">
+        <div class="review-header">
+          <div class="reviewer-initial">B</div>
+          <div class="reviewer-info">
+            <h4>Brandon Younesi</h4>
+            <div class="reviewer-meta">2 months ago</div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+        </div>
+        <p class="review-text">Joshua Kashani has been nothing short of amazing. He helped me find a perfect tenant for
+          my apartment rental and made the process both fun and easy. Prior to hiring Josh I couldn't find anyone to
+          rent my place but once I hired him he found a tenant within the first week. I can't thank him and his team
+          enough for all their help. I'll definitely be giving him my future vacancies.</p>
+      </a>
+
+      <!-- Review 3 -->
+      <a href="https://www.google.com/maps/place/Joshua+Kashani+Real+Estate+Agent+At+The+Agency/@34.0204789,-118.4117326,10z/data=!4m8!3m7!1s0x29b5c568f43cec29:0x64ff2d3817e7ae1d!8m2!3d34.020479!4d-118.4117326!9m1!1b1!16s%2Fg%2F11m603wyvj?entry=ttu&g_ep=EgoyMDI1MDYwNC4wIKXMDSoASAFQAw%3D%3D"
+        target="_blank" class="review-card animate delay-2">
+        <div class="review-header">
+          <div class="reviewer-initial">J</div>
+          <div class="reviewer-info">
+            <h4>Joubin Sedgh</h4>
+            <div class="reviewer-meta">2 months ago</div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+        </div>
+        <p class="review-text">Josh was an absolute game-changer in leasing our property, securing us a full asking
+          price when our previous agent couldn't. His expertise, dedication, and strategic approach made all the
+          difference in getting the deal done smoothly. If you're looking for a top-tier real estate professional who
+          delivers results and will always pick up the phone, reach out to Josh!</p>
+      </a>
+    </div>
+
+    <a href="https://www.google.com/maps/place/Joshua+Kashani+Real+Estate+Agent+At+The+Agency/@34.0204789,-118.4117326,10z/data=!4m8!3m7!1s0x29b5c568f43cec29:0x64ff2d3817e7ae1d!8m2!3d34.020479!4d-118.4117326!9m1!1b1!16s%2Fg%2F11m603wyvj?entry=ttu&g_ep=EgoyMDI1MDYwNC4wIKXMDSoASAFQAw%3D%3D"
+      target="_blank" class="see-more-reviews animate delay-3">
+      See More Reviews
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer" class="site-footer scroll-animate">
+    <div class="footer-content">
+      <p class="footer-contact animate delay-0">
+        DRE# 02102256 (CA) &nbsp;|&nbsp; Email: <a
+          href="mailto:joshkashani@theagencyre.com">joshkashani@theagencyre.com</a> &nbsp;|&nbsp; Phone:
+        +1&nbsp;(310)&nbsp;779‑1995
+      </p>
+      <div class="social-buttons animate delay-1">
+        <a href="https://www.instagram.com/kashanihomes?igsh=NTc4MTIwNjQ2YQ==" target="_blank"
+          class="social-button">Instagram</a>
+        <a href="https://www.linkedin.com/in/joshua-kashani-527232159/" target="_blank"
+          class="social-button">LinkedIn</a>
+        <a href="https://www.theagencyre.com/agent/joshua-kashani" target="_blank"
+          class="social-button">The&nbsp;Agency</a>
+      </div>
+      <p class="rights animate delay-2">© 2025 Joshua Kashani. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Script imports -->
+  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=625e063db7e003e37631375f"
+    type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.prod.website-files.com/625e063db7e003e37631375f/js/webflow.schunk.4a394eb5af8156f2.js"
+    type="text/javascript"></script>
+  <script src="https://cdn.prod.website-files.com/625e063db7e003e37631375f/js/webflow.schunk.7474359a2d8661da.js"
+    type="text/javascript"></script>
+  <script src="https://cdn.prod.website-files.com/625e063db7e003e37631375f/js/webflow.88defdb0.ac051af72f9a6daf.js"
+    type="text/javascript"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+  <!-- Core functionality -->
+  <script>
+    // Ensure second split‑title line stretches to match the first
+    function fitSplitTitles() {
+      document.querySelectorAll('.split-title-wrapper').forEach(wrapper => {
+        const l1 = wrapper.querySelector('.split-title-1');
+        const l2 = wrapper.querySelector('.split-title-2');
+        if (l1 && l2) {
+          const w1 = l1.offsetWidth;
+          const w2 = l2.offsetWidth;
+          if (w2 > 0) {
+            l2.style.transform = 'scaleX(' + (w1 / w2) + ')';
+          }
+        }
+      });
+    }
+    // Re‑fit on load and resize
+    window.addEventListener('load', fitSplitTitles);
+    window.addEventListener('resize', fitSplitTitles);
+
+    document.querySelectorAll('.tab-button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // activate button
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        // show matching panel
+        const target = 'panel-' + btn.dataset.target;
+        document.querySelectorAll('.listing-panel').forEach(p => {
+          p.classList.toggle('active', p.id === target);
+        });
+        const titleMap = {
+          rentals: ['Available', 'Rentals'],
+          leased: ['Leased', 'Units'],
+          sales: ['Available', 'Sales'],
+          sold: ['Sold', 'Houses']
+        };
+        const parts = titleMap[btn.dataset.target];
+        const line1El = document.getElementById('panel-title-line1');
+        const line2El = document.getElementById('panel-title-line2');
+        line1El.textContent = parts[0];
+        line2El.innerHTML = '<em>' + parts[1] + '</em>';
+
+        // Restart the entry animation for a smooth “flow‑in” effect
+        [line1El, line2El].forEach(el => {
+          el.classList.remove('animate');
+          void el.offsetWidth;          // force reflow
+          el.classList.add('animate');  // re‑apply animation
+        });
+        fitSplitTitles();   // re‑calculate widths after title change
+      });
     });
-    fitSplitTitles();   // re‑calculate widths after title change
-  });
-});
-    </script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
       const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -1014,155 +1314,108 @@ document.querySelectorAll('.tab-button').forEach(btn=>{
     });
   </script>
 
-  <!-- Navigation scripts -->
+  <!-- Map scripts -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const nav       = document.getElementById('Top-Nav');
-      const menuBtn   = nav.querySelector('.closed-nav-wrapper .menu-button');
-      const closeBtn  = nav.querySelector('.close-button-container');
-      const html      = document.documentElement;
-      const openedNav = nav.querySelector('.opened-nav-wrapper');
-      const closedNav = nav.querySelector('.closed-nav-wrapper');
-      let   animating = false;   // prevent rapid double‑click glitches
+      const accentColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--accent-color').trim() || '#b55e31';
 
-      if (menuBtn && closeBtn && openedNav && closedNav) {
-        const unlock = () => { animating = false; };
-
-        // Listen for the end of opacity/transform transitions on either wrapper
-        ['transitionend', 'animationend'].forEach(evt => {
-          openedNav.addEventListener(evt, unlock, { once:false });
-          closedNav.addEventListener(evt, unlock, { once:false });
-        });
-
-        const openMenu  = e => {
-          if (animating) return;
-          e?.preventDefault();
-          animating = true;
-          nav.classList.add('open');
-          html.classList.add('nav-open');
-        };
-
-        const closeMenu = e => {
-          if (animating) return;
-          e?.preventDefault();
-          animating = true;
-          nav.classList.remove('open');
-          html.classList.remove('nav-open');
-        };
-
-        menuBtn.addEventListener('click', openMenu);
-        closeBtn.addEventListener('click', closeMenu);
-
-        // Close on ESC
-        document.addEventListener('keydown', e => {
-          if (e.key === 'Escape') closeMenu();
-        });
-      }
-    });
-  </script>
-
-    <!-- Map scripts -->
-    <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const accentColor = getComputedStyle(document.documentElement)
-                        .getPropertyValue('--accent-color').trim() || '#b55e31';
-
-  /* Create map centred on Los Angeles */
-  const map = L.map('map', {
-    center: [34.0522, -118.2437],
-    zoom: 11,
-    scrollWheelZoom: true,
-    attributionControl: false
-  });
-
-  // Responsive: Invalidate map size on window resize (for mobile)
-  window.addEventListener('resize', () => {
-    setTimeout(() => map.invalidateSize(), 300);
-  });
-
-  /* CartoDB Positron tiles (free, no key required) */
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution:
-      '&copy; <a href="https://carto.com/attributions">CARTO</a> | &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
-    subdomains: 'abcd',
-    maxZoom: 19
-  }).addTo(map);
-
-  /* Pull listings and add circle markers (green = active, red = sold/closed) */
-  fetch('public/listings.json')
-    .then(r => r.json())
-    .then(data => {
-      // Build a map of all listings by unique key
-      const listingMap = new Map();
-
-      // Helper to get unique key
-      function getKey(item) {
-        return item.MLSNumber || item.Id || item.id || JSON.stringify(item);
-      }
-
-      // 1. Process sold first (highest priority)
-      (data.sold || []).forEach(item => {
-        if (item.Latitude && item.Longitude) {
-          listingMap.set(getKey(item), {...item, _mapStatus: 'sold'});
-        }
+      /* Create map centred on Los Angeles */
+      const map = L.map('map', {
+        center: [34.0522, -118.2437],
+        zoom: 11,
+        scrollWheelZoom: true,
+        attributionControl: false
       });
 
-      // 2. Then leased (unless already sold)
-      (data.pastLeased || []).forEach(item => {
-        if (item.Latitude && item.Longitude) {
-          const key = getKey(item);
-          if (!listingMap.has(key)) {
-            listingMap.set(key, {...item, _mapStatus: 'leased'});
+      // Responsive: Invalidate map size on window resize (for mobile)
+      window.addEventListener('resize', () => {
+        setTimeout(() => map.invalidateSize(), 300);
+      });
+
+      /* CartoDB Positron tiles (free, no key required) */
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution:
+          '&copy; <a href="https://carto.com/attributions">CARTO</a> | &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+        subdomains: 'abcd',
+        maxZoom: 19
+      }).addTo(map);
+
+      /* Pull listings and add circle markers (green = active, red = sold/closed) */
+      fetch('public/listings.json')
+        .then(r => r.json())
+        .then(data => {
+          // Build a map of all listings by unique key
+          const listingMap = new Map();
+
+          // Helper to get unique key
+          function getKey(item) {
+            return item.MLSNumber || item.Id || item.id || JSON.stringify(item);
           }
-        }
-      });
 
-      // 3. Then available rentals
-      (data.current || []).forEach(item => {
-        if (item.Latitude && item.Longitude && item.IsRental) {
-          const key = getKey(item);
-          if (!listingMap.has(key)) {
-            listingMap.set(key, {...item, _mapStatus: 'available'});
-          }
-        }
-      });
+          // 1. Process sold first (highest priority)
+          (data.sold || []).forEach(item => {
+            if (item.Latitude && item.Longitude) {
+              listingMap.set(getKey(item), { ...item, _mapStatus: 'sold' });
+            }
+          });
 
-      // 4. Then available sales
-      (data.current || []).forEach(item => {
-        if (item.Latitude && item.Longitude && !item.IsRental) {
-          const key = getKey(item);
-          if (!listingMap.has(key)) {
-            listingMap.set(key, {...item, _mapStatus: 'available'});
-          }
-        }
-      });
+          // 2. Then leased (unless already sold)
+          (data.pastLeased || []).forEach(item => {
+            if (item.Latitude && item.Longitude) {
+              const key = getKey(item);
+              if (!listingMap.has(key)) {
+                listingMap.set(key, { ...item, _mapStatus: 'leased' });
+              }
+            }
+          });
 
-      // Prepare markers array
-      const markers = [];
-      listingMap.forEach(item => {
-        const isSold = item._mapStatus === 'sold' || item._mapStatus === 'leased';
-        const lat = Number(item.Latitude), lng = Number(item.Longitude);
+          // 3. Then available rentals
+          (data.current || []).forEach(item => {
+            if (item.Latitude && item.Longitude && item.IsRental) {
+              const key = getKey(item);
+              if (!listingMap.has(key)) {
+                listingMap.set(key, { ...item, _mapStatus: 'available' });
+              }
+            }
+          });
 
-        const marker = L.circleMarker([lat, lng], {
-          radius: 8,
-          color: '#ffffff',
-          weight: 2,
-          fillOpacity: 1,
-          fillColor: isSold ? 'red' : 'green'
-        }).addTo(map);
+          // 4. Then available sales
+          (data.current || []).forEach(item => {
+            if (item.Latitude && item.Longitude && !item.IsRental) {
+              const key = getKey(item);
+              if (!listingMap.has(key)) {
+                listingMap.set(key, { ...item, _mapStatus: 'available' });
+              }
+            }
+          });
 
-        // Build popup
-        const beds  = item.Beds || 0;
-        const baths = (item.BathsFull || 0) + (item.BathsHalf || 0) * 0.5;
-        const bedText  = beds  ? `${beds} Bed${beds > 1 ? 's' : ''}` : '';
-        const bathText = baths ? `${baths} Bath${baths !== 1 ? 's' : ''}` : '';
-        const bedBath  = [bedText, bathText].filter(Boolean).join(' · ');
-        const price    = item.FormattedPrice || item.ListPrice || '';
-        const title    = item.FormattedAddress || item.Address || '';
-        const image    = item.CoverPhoto || '';
-        const detailUrl = item.DetailUrlForSchema || item.DetailUrl || item.DetailURL || '#';
+          // Prepare markers array
+          const markers = [];
+          listingMap.forEach(item => {
+            const isSold = item._mapStatus === 'sold' || item._mapStatus === 'leased';
+            const lat = Number(item.Latitude), lng = Number(item.Longitude);
 
-        marker.bindPopup(`
+            const marker = L.circleMarker([lat, lng], {
+              radius: 8,
+              color: '#ffffff',
+              weight: 2,
+              fillOpacity: 1,
+              fillColor: isSold ? 'red' : 'green'
+            }).addTo(map);
+
+            // Build popup
+            const beds = item.Beds || 0;
+            const baths = (item.BathsFull || 0) + (item.BathsHalf || 0) * 0.5;
+            const bedText = beds ? `${beds} Bed${beds > 1 ? 's' : ''}` : '';
+            const bathText = baths ? `${baths} Bath${baths !== 1 ? 's' : ''}` : '';
+            const bedBath = [bedText, bathText].filter(Boolean).join(' · ');
+            const price = item.FormattedPrice || item.ListPrice || '';
+            const title = item.FormattedAddress || item.Address || '';
+            const image = item.CoverPhoto || '';
+            const detailUrl = item.DetailUrlForSchema || item.DetailUrl || item.DetailURL || '#';
+
+            marker.bindPopup(`
           <div style="text-align:center; max-width:180px">
             ${image ? `<a href="${detailUrl}" target="_blank" rel="noopener"><img src="${image}" alt="${title}" style="width:120px; height:auto; margin-bottom:0.5em; border-radius:6px;"></a>` : ''}
             <div>
@@ -1174,169 +1427,169 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         `);
 
-        markers.push({ marker, isSold });
-      });
-
-      // Helper to update marker counter
-      function updateMarkerCounter() {
-        const soldCheckbox = document.getElementById('show-sold-checkbox');
-        const showSold = soldCheckbox ? soldCheckbox.checked : true;
-        let unsoldShown = 0, soldShown = 0;
-        markers.forEach(({ marker, isSold }) => {
-          if (map.hasLayer(marker)) {
-            if (isSold) soldShown++;
-            else unsoldShown++;
-          }
-        });
-        document.getElementById('unsold-count').textContent = `Available: ${unsoldShown}`;
-        document.getElementById('sold-count').textContent = `Sold: ${soldShown}`;
-      }
-
-      // Initial counter
-      updateMarkerCounter();
-
-      // Filter logic for the checkbox
-      const soldCheckbox = document.getElementById('show-sold-checkbox');
-      if (soldCheckbox) {
-        soldCheckbox.addEventListener('change', () => {
-          const showSold = soldCheckbox.checked;
-          markers.forEach(({ marker, isSold }) => {
-            if (isSold && !showSold) {
-              marker.remove(); // Hide sold markers
-            } else if (isSold && showSold && !map.hasLayer(marker)) {
-              marker.addTo(map); // Show sold markers
-            }
+            markers.push({ marker, isSold });
           });
-          updateMarkerCounter();
-        });
-      }
-    })
-    .catch(err => console.error('Failed to load listings for map', err));
-});
-</script>
 
-    <!-- Listings population -->
-    <script type="module">
-  const PANEL_MAP = {
-    rentals: '#panel-rentals .listing-grid',
-    leased:  '#panel-leased .listing-grid',
-    sales:   '#panel-sales .listing-grid',
-    sold:    '#panel-sold .listing-grid'
-  };
-
-  fetch('public/listings.json')
-    .then(res => res.json())
-    .then(data => {
-      // ----- Re‑classify raw feed buckets into UI categories -----
-      const feeds = data || {};
-      const merge = (...arrs) => arrs.flat().filter(Boolean);
-
-      const rentals = merge(feeds.current, feeds.comingSoon, feeds.pending)
-        .filter(item =>
-          item.IsRental &&
-          /^(active|active under contract|coming soon|pending)/i.test(item.Status || '')
-        );
-
-      // Build leased‑units list (deduplicated):
-      const leasedMap = new Map();
-
-      // Helper to push unique MLS# keys
-      const addLease = item => {
-        const key = item.MLSNumber || item.Id || item.id || JSON.stringify(item);
-        if (!leasedMap.has(key)) leasedMap.set(key, item);
-      };
-
-      // 1) Everything explicitly returned in the pastLeased feed
-      (feeds.pastLeased || []).forEach(addLease);
-
-      // 2) Anything in the other feeds that clearly looks like a completed rental
-      merge(feeds.current, feeds.past, feeds.sold, feeds.comingSoon, feeds.pending).forEach(item => {
-        const statusLower = (item.Status || '').toLowerCase();
-        const bannerLower = (item.Banner || item.PropertyBanner || item.BannerLabel || '').toLowerCase();
-        const closedRental =
-          /(leased|rented)/i.test(statusLower) ||
-          /(leased|rented)/i.test(bannerLower) ||
-          (item.IsRental && /(closed|sold)/i.test(statusLower));
-        if (closedRental) addLease(item);
-      });
-
-      const leased = Array.from(leasedMap.values());
-
-      const sales = merge(feeds.current, feeds.comingSoon, feeds.pending)
-        .filter(item =>
-          !item.IsRental &&
-          /^(active|active under contract|coming soon|pending)/i.test(item.Status || '')
-        );
-
-      const sold = (feeds.sold || [])
-        .filter(item =>
-          !/(leased|rented)/i.test((item.Status || '').trim()) &&
-          !item.IsRental &&
-          !(feeds.pastLeased || []).some(r => r.MLSNumber === item.MLSNumber)
-        );
-
-      const categories = { rentals, leased, sales, sold };
-
-      // Hide tab buttons & panels when a category has no listings
-      Object.entries(categories).forEach(([cat, items]) => {
-        if (items.length === 0) {
-          const btn   = document.querySelector(`.tab-button[data-target="${cat}"]`);
-          const panel = document.getElementById(`panel-${cat}`);
-          if (btn)   btn.style.display = 'none';
-          if (panel) panel.style.display = 'none';
-        }
-      });
-
-      // Loop through each category and render its listings
-      Object.entries(categories).forEach(([category, listings]) => {
-        const gridSelector = PANEL_MAP[category];
-        if (!gridSelector) return;
-        if (listings.length === 0) return;   // nothing to render for this tab
-        const grid = document.querySelector(gridSelector);
-        grid.innerHTML = '';
-
-        listings.forEach(item => {
-          // Build beds and baths label
-          const beds = item.Beds || 0;
-          const baths = (item.BathsFull || 0) + (item.BathsHalf || 0) * 0.5;
-          const bedText = beds ? `${beds} Bed${beds > 1 ? 's' : ''}` : '';
-          const bathText = baths ? `${baths} Bath${baths !== 1 ? 's' : ''}` : '';
-          const bedBath = [bedText, bathText].filter(Boolean).join(' · ');
-
-          const imageUrl = item.CoverPhoto || (item.Photos && item.Photos.length ? item.Photos[0].Url : '');
-
-          // ----- status badge logic -----
-          const statusLower = (item.Status || '').toLowerCase();
-          const bannerText  = item.Banner || item.PropertyBanner || item.BannerLabel || item.PropertyBannerLabel || '';
-          const bannerLower = bannerText.toLowerCase();
-          let   badgeHTML   = '';
-
-          // 1) Special case: rentals that are active‑under‑contract
-          if (category === 'rentals' && statusLower.includes('contract')) {
-            badgeHTML = '<div class="status-badge under-contract">Active Under Contract</div>';
-
-          // 2) Anything clearly leased / rented
-          } else if (
-            category === 'leased' ||
-            statusLower.includes('leased')  || statusLower.includes('rented') ||
-            bannerLower.includes('leased')  || bannerLower.includes('rented')
-          ) {
-            badgeHTML = '<div class="status-badge leased">Leased</div>';
-
-          // 3) Use explicit banner text if feed provides it (Coming Soon, In Escrow, etc.)
-          } else if (bannerText) {
-            badgeHTML = `<div class="status-badge banner">${bannerText}</div>`;
-
-          // 4) Fallback: show a generic badge based on the active panel
-          } else {
-            if      (category === 'rentals') badgeHTML = '<div class="status-badge banner">Rental</div>';
-            else if (category === 'sales')   badgeHTML = '<div class="status-badge banner">For Sale</div>';
-            else if (category === 'sold')    badgeHTML = '<div class="status-badge banner">Sold</div>';
+          // Helper to update marker counter
+          function updateMarkerCounter() {
+            const soldCheckbox = document.getElementById('show-sold-checkbox');
+            const showSold = soldCheckbox ? soldCheckbox.checked : true;
+            let unsoldShown = 0, soldShown = 0;
+            markers.forEach(({ marker, isSold }) => {
+              if (map.hasLayer(marker)) {
+                if (isSold) soldShown++;
+                else unsoldShown++;
+              }
+            });
+            document.getElementById('unsold-count').textContent = `Available: ${unsoldShown}`;
+            document.getElementById('sold-count').textContent = `Sold: ${soldShown}`;
           }
-          // --------------------------------
 
-          // Render card with loading placeholder
-          const cardHTML = `
+          // Initial counter
+          updateMarkerCounter();
+
+          // Filter logic for the checkbox
+          const soldCheckbox = document.getElementById('show-sold-checkbox');
+          if (soldCheckbox) {
+            soldCheckbox.addEventListener('change', () => {
+              const showSold = soldCheckbox.checked;
+              markers.forEach(({ marker, isSold }) => {
+                if (isSold && !showSold) {
+                  marker.remove(); // Hide sold markers
+                } else if (isSold && showSold && !map.hasLayer(marker)) {
+                  marker.addTo(map); // Show sold markers
+                }
+              });
+              updateMarkerCounter();
+            });
+          }
+        })
+        .catch(err => console.error('Failed to load listings for map', err));
+    });
+  </script>
+
+  <!-- Listings population -->
+  <script type="module">
+    const PANEL_MAP = {
+      rentals: '#panel-rentals .listing-grid',
+      leased: '#panel-leased .listing-grid',
+      sales: '#panel-sales .listing-grid',
+      sold: '#panel-sold .listing-grid'
+    };
+
+    fetch('public/listings.json')
+      .then(res => res.json())
+      .then(data => {
+        // ----- Re‑classify raw feed buckets into UI categories -----
+        const feeds = data || {};
+        const merge = (...arrs) => arrs.flat().filter(Boolean);
+
+        const rentals = merge(feeds.current, feeds.comingSoon, feeds.pending)
+          .filter(item =>
+            item.IsRental &&
+            /^(active|active under contract|coming soon|pending)/i.test(item.Status || '')
+          );
+
+        // Build leased‑units list (deduplicated):
+        const leasedMap = new Map();
+
+        // Helper to push unique MLS# keys
+        const addLease = item => {
+          const key = item.MLSNumber || item.Id || item.id || JSON.stringify(item);
+          if (!leasedMap.has(key)) leasedMap.set(key, item);
+        };
+
+        // 1) Everything explicitly returned in the pastLeased feed
+        (feeds.pastLeased || []).forEach(addLease);
+
+        // 2) Anything in the other feeds that clearly looks like a completed rental
+        merge(feeds.current, feeds.past, feeds.sold, feeds.comingSoon, feeds.pending).forEach(item => {
+          const statusLower = (item.Status || '').toLowerCase();
+          const bannerLower = (item.Banner || item.PropertyBanner || item.BannerLabel || '').toLowerCase();
+          const closedRental =
+            /(leased|rented)/i.test(statusLower) ||
+            /(leased|rented)/i.test(bannerLower) ||
+            (item.IsRental && /(closed|sold)/i.test(statusLower));
+          if (closedRental) addLease(item);
+        });
+
+        const leased = Array.from(leasedMap.values());
+
+        const sales = merge(feeds.current, feeds.comingSoon, feeds.pending)
+          .filter(item =>
+            !item.IsRental &&
+            /^(active|active under contract|coming soon|pending)/i.test(item.Status || '')
+          );
+
+        const sold = (feeds.sold || [])
+          .filter(item =>
+            !/(leased|rented)/i.test((item.Status || '').trim()) &&
+            !item.IsRental &&
+            !(feeds.pastLeased || []).some(r => r.MLSNumber === item.MLSNumber)
+          );
+
+        const categories = { rentals, leased, sales, sold };
+
+        // Hide tab buttons & panels when a category has no listings
+        Object.entries(categories).forEach(([cat, items]) => {
+          if (items.length === 0) {
+            const btn = document.querySelector(`.tab-button[data-target="${cat}"]`);
+            const panel = document.getElementById(`panel-${cat}`);
+            if (btn) btn.style.display = 'none';
+            if (panel) panel.style.display = 'none';
+          }
+        });
+
+        // Loop through each category and render its listings
+        Object.entries(categories).forEach(([category, listings]) => {
+          const gridSelector = PANEL_MAP[category];
+          if (!gridSelector) return;
+          if (listings.length === 0) return;   // nothing to render for this tab
+          const grid = document.querySelector(gridSelector);
+          grid.innerHTML = '';
+
+          listings.forEach(item => {
+            // Build beds and baths label
+            const beds = item.Beds || 0;
+            const baths = (item.BathsFull || 0) + (item.BathsHalf || 0) * 0.5;
+            const bedText = beds ? `${beds} Bed${beds > 1 ? 's' : ''}` : '';
+            const bathText = baths ? `${baths} Bath${baths !== 1 ? 's' : ''}` : '';
+            const bedBath = [bedText, bathText].filter(Boolean).join(' · ');
+
+            const imageUrl = item.CoverPhoto || (item.Photos && item.Photos.length ? item.Photos[0].Url : '');
+
+            // ----- status badge logic -----
+            const statusLower = (item.Status || '').toLowerCase();
+            const bannerText = item.Banner || item.PropertyBanner || item.BannerLabel || item.PropertyBannerLabel || '';
+            const bannerLower = bannerText.toLowerCase();
+            let badgeHTML = '';
+
+            // 1) Special case: rentals that are active‑under‑contract
+            if (category === 'rentals' && statusLower.includes('contract')) {
+              badgeHTML = '<div class="status-badge under-contract">Active Under Contract</div>';
+
+              // 2) Anything clearly leased / rented
+            } else if (
+              category === 'leased' ||
+              statusLower.includes('leased') || statusLower.includes('rented') ||
+              bannerLower.includes('leased') || bannerLower.includes('rented')
+            ) {
+              badgeHTML = '<div class="status-badge leased">Leased</div>';
+
+              // 3) Use explicit banner text if feed provides it (Coming Soon, In Escrow, etc.)
+            } else if (bannerText) {
+              badgeHTML = `<div class="status-badge banner">${bannerText}</div>`;
+
+              // 4) Fallback: show a generic badge based on the active panel
+            } else {
+              if (category === 'rentals') badgeHTML = '<div class="status-badge banner">Rental</div>';
+              else if (category === 'sales') badgeHTML = '<div class="status-badge banner">For Sale</div>';
+              else if (category === 'sold') badgeHTML = '<div class="status-badge banner">Sold</div>';
+            }
+            // --------------------------------
+
+            // Render card with loading placeholder
+            const cardHTML = `
             <div class="listing-card animate">
               ${badgeHTML}
               <div class="listing-photo loading" data-src="${imageUrl}"></div>
@@ -1350,159 +1603,91 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             </div>
           `;
-          grid.insertAdjacentHTML('beforeend', cardHTML);
-          // After insertion, load actual image and fade in
-          const card = grid.lastElementChild;
-          const photoDiv = card.querySelector('.listing-photo');
-          const url = photoDiv.dataset.src;
-          const img = new Image();
-          img.onload = () => {
-            photoDiv.style.backgroundImage = `url('${url}')`;
-            photoDiv.classList.remove('loading');
-            photoDiv.classList.add('loaded');
-          };
-          img.src = url;
+            grid.insertAdjacentHTML('beforeend', cardHTML);
+            // After insertion, load actual image and fade in
+            const card = grid.lastElementChild;
+            const photoDiv = card.querySelector('.listing-photo');
+            const url = photoDiv.dataset.src;
+            const img = new Image();
+            img.onload = () => {
+              photoDiv.style.backgroundImage = `url('${url}')`;
+              photoDiv.classList.remove('loading');
+              photoDiv.classList.add('loaded');
+            };
+            img.src = url;
+          });
         });
+
+        // Activate the first non-empty tab
+        const firstFilled = Object.keys(categories).find(cat => categories[cat].length > 0);
+        if (firstFilled) {
+          document.querySelector(`.tab-button[data-target="${firstFilled}"]`).click();
+        }
+      })
+      .catch(err => console.error('Failed to load and classify listings.json', err));
+  </script>
+  <!-- Nav wiring (Projects dropdown + mobile burger) -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const nav = document.getElementById('Top-Nav');
+    const burger = nav.querySelector('.main-nav__burger');
+    const projects = nav.querySelector('#projects-dropdown');
+    const toggle = projects?.querySelector('.main-nav__toggle');
+
+    // Add shadow when page is scrolled
+    const handleScroll = () => {
+      if (window.scrollY > 2) nav.classList.add('is-scrolled');
+      else nav.classList.remove('is-scrolled');
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Burger toggle (mobile)
+    burger?.addEventListener('click', () => {
+      const expanded = burger.getAttribute('aria-expanded') === 'true';
+      burger.setAttribute('aria-expanded', String(!expanded));
+      nav.classList.toggle('open', !expanded);
+    });
+
+    // Open/close Projects on mobile (desktop uses :hover CSS)
+    if (toggle && projects) {
+      toggle.addEventListener('click', (e) => {
+        if (window.matchMedia('(max-width: 900px)').matches) {
+          e.preventDefault();
+          projects.classList.toggle('open');
+          const expanded = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!expanded));
+        }
       });
 
-      // Activate the first non-empty tab
-      const firstFilled = Object.keys(categories).find(cat => categories[cat].length > 0);
-      if (firstFilled) {
-        document.querySelector(`.tab-button[data-target="${firstFilled}"]`).click();
-      }
-    })
-    .catch(err => console.error('Failed to load and classify listings.json', err));
-</script>
-
-    <!-- Animation scripts -->
-    <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const nav = document.getElementById('Top-Nav');
-    const html = document.documentElement;
-
-    // Add click handlers for smooth scrolling and menu close
-    document.querySelectorAll('.nav-item').forEach(link => {
-        link.addEventListener('click', e => {
-            const href = link.getAttribute('href');
-            if (href.startsWith('#')) {
-                e.preventDefault();
-                // Begin closing menu immediately for a seamless transition
-                html.classList.remove('nav-open');   // re‑enable scrolling
-                nav.classList.add('closing');
-
-                // Smooth‑scroll to the target once the nav starts sliding away
-                const target = document.querySelector(href);
-                if (target) {
-                    setTimeout(() => {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 50);      // small delay lets the CSS transition kick in
-                }
-
-                // Finish cleanup after the closing animation
-                setTimeout(() => {
-                    nav.classList.remove('open', 'closing');
-                }, 500); // Match the CSS transition duration
-            }
-        });
-    });
-});
-</script>
-
-    <!-- Utility styles -->
-    <style>
-/* Add smoother closing animation for the menu */
-.nav-section.closing .opened-nav-wrapper {
-    transform: translateY(-100%);
-    opacity: 0;
-    transition: transform 0.5s ease, opacity 0.5s ease;
-    pointer-events: none;
-}
-
-/* Smoother menu transitions */
-.nav-section {
-  transition: opacity 0.3s ease;
-}
-
-.opened-nav-wrapper {
-  transform: translateY(-100%);
-  opacity: 0;
-  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1),
-              opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.nav-section.open .opened-nav-wrapper {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* Prevent multiple clicks during animation */
-.nav-section.animating {
-  pointer-events: none;
-}
-</style>
-
-<!-- Menu toggle -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const nav = document.getElementById('Top-Nav');
-    const menuBtn = nav.querySelector('.closed-nav-wrapper .menu-button');
-    const closeBtn = nav.querySelector('.close-button-container');
-    const html = document.documentElement;
-    let isAnimating = false;
-
-    // Improved scroll handling
-    function smoothScrollTo(target) {
-        if (!target) return;
-        
-        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
-        const startPosition = window.pageYOffset;
-        const distance = targetPosition - startPosition;
-        
-        window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-        });
-    }
-
-    // More robust click handler
-    document.querySelectorAll('.nav-item').forEach(link => {
-        link.addEventListener('click', e => {
-            const href = link.getAttribute('href');
-            if (!href.startsWith('#') || isAnimating) return;
-            
-            e.preventDefault();
-            isAnimating = true;
-            nav.classList.add('animating');
-
-            // Update URL and prepare for transition
-            history.pushState(null, '', href);
-            html.classList.remove('nav-open');
-            nav.classList.add('closing');
-
-            // Coordinated animation sequence
-            const target = document.querySelector(href);
-            requestAnimationFrame(() => {
-                setTimeout(() => {
-                    smoothScrollTo(target);
-                    setTimeout(() => {
-                        nav.classList.remove('open', 'closing', 'animating');
-                        isAnimating = false;
-                    }, 400);
-                }, 50);
-            });
-        });
-    });
-
-    // Handle initial hash on page load
-    if (window.location.hash) {
-        const target = document.querySelector(window.location.hash);
-        if (target) {
-            requestAnimationFrame(() => {
-                smoothScrollTo(target);
-            });
+      // ESC to close submenu on mobile
+      projects.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          projects.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.focus();
         }
+      });
     }
-});
-</script>
+
+    // Submenu click → switch tabs + scroll to listings
+    nav.querySelectorAll('.main-nav__submenu-link[data-tab]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const tab = btn.dataset.tab;
+        const targetSel = btn.dataset.target || '#listings-section';
+        document.querySelector(`.tab-button[data-target="${tab}"]`)?.click();
+        document.querySelector(targetSel)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Close mobile menus after navigating
+        nav.classList.remove('open');
+        burger?.setAttribute('aria-expanded', 'false');
+        projects?.classList.remove('open');
+        toggle?.setAttribute('aria-expanded', 'false');
+      });
+    });
+  });
+  </script>
 </body>
+
 </html>
