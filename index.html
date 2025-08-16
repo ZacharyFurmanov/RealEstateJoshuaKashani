@@ -919,6 +919,7 @@
   .site-nav .main-nav__link,
   .site-nav .main-nav__toggle {
     font: inherit;
+    font-size: 1.2rem; /* larger nav text */
     font-weight: 600;
     letter-spacing: 0; /* ensure normal spacing */
     font-variant-ligatures: none;
@@ -946,7 +947,7 @@
     border: 2.5px solid var(--accent-color);
     border-radius: 14px;
     box-shadow: 0 12px 40px rgba(181, 94, 49, .18);
-    padding: 1rem;
+    padding: 0.12rem 1rem; /* shorter vertical height */
   }
   /* Hover bridge so menu stays open when moving cursor from button into panel */
   .site-nav .main-nav__menu::before {
@@ -1010,13 +1011,13 @@
             <div class="main-nav__grid">
               <div>
                 <div class="main-nav__heading">Available</div>
-                <button class="main-nav__submenu-link" role="menuitem" data-tab="sales" data-target="#listings-section">Available for Sale</button>
-                <button class="main-nav__submenu-link" role="menuitem" data-tab="rentals" data-target="#listings-section">Available for Lease</button>
+                <button class="main-nav__submenu-link" role="menuitem" data-tab="sales" data-target="#listings-section"><strong>Available for Sale</strong></button>
+                <button class="main-nav__submenu-link" role="menuitem" data-tab="rentals" data-target="#listings-section"><strong>Available for Lease</strong></button>
               </div>
               <div>
                 <div class="main-nav__heading">Sold</div>
-                <button class="main-nav__submenu-link" role="menuitem" data-tab="sold" data-target="#listings-section">Closed Houses</button>
-                <button class="main-nav__submenu-link" role="menuitem" data-tab="leased" data-target="#listings-section">Closed Leases</button>
+                <button class="main-nav__submenu-link" role="menuitem" data-tab="sold" data-target="#listings-section"><strong>Closed Houses</strong></button>
+                <button class="main-nav__submenu-link" role="menuitem" data-tab="leased" data-target="#listings-section"><strong>Closed Leases</strong></button>
               </div>
             </div>
           </div>
