@@ -942,12 +942,14 @@
     left: 50%;
     top: 100%; /* no gap to prevent hover drop */
     transform: translateX(-56%); /* slight left shift so panel sits a bit left of center */
-    width: min(90vw, 560px); /* keep within viewport */
+    width: min(90vw, 480px); /* smaller max width */
     background: #fff;
     border: 2.5px solid var(--accent-color);
-    border-radius: 14px;
+    border-radius: 12px;
     box-shadow: 0 12px 40px rgba(181, 94, 49, .18);
-    padding: 0.12rem 1rem; /* shorter vertical height */
+    padding: 0.25rem 0.75rem; /* significantly smaller padding */
+    text-align: center; /* ensures child anchors center */
+    font-size: 0.95rem; /* smaller submenu text */
   }
   /* Hover bridge so menu stays open when moving cursor from button into panel */
   .site-nav .main-nav__menu::before {
@@ -958,12 +960,46 @@
     right: 0;
     height: 8px;
   }
-  .site-nav .main-nav__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.25rem; }
-  .site-nav .main-nav__heading { font-weight: 700; color: var(--accent-color); margin: 0 0 .25rem; }
+.site-nav .main-nav__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 0.75rem; }
+.site-nav .main-nav__grid > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center heading and buttons horizontally */
+}
+.site-nav .main-nav__heading {
+  font-weight: 700;
+  color: var(--accent-color);
+  margin: 0 0 .25rem;
+  text-align: center;
+  width: 100%;
+}
   .site-nav .main-nav__submenu-link {
-    display: block; width: 100%; text-align: left; font: inherit; color: #222;
-    background: none; border: 1px solid transparent; padding: .75em 1em; border-radius: 10px; cursor: pointer;
+    display: block;
+    width: 100%;
+    text-align: center; /* centers submenu text */
+    font: inherit;
+    color: #222;
+    background: none;
+    border: 1px solid transparent;
+    padding: .5em .75em; /* shorter items */
+    border-radius: 10px;
+    cursor: pointer;
     transition: background .18s, color .18s, border-color .18s;
+  }
+  .site-nav .main-nav__submenu-link.top-level {
+    font-size: 1.15rem; /* slightly larger for Available and Sold */
+    font-weight: 700;
+    border: none;        /* remove any border */
+    background: none;    /* remove background */
+    padding: 0.15rem 0;  /* minimal padding */
+    cursor: default;     /* not clickable */
+    text-decoration: none; /* remove underline */
+  }
+
+  /* Disable hover animation for Available and Sold */
+  .site-nav .main-nav__submenu-link.top-level:hover {
+    background: none;
+    color: inherit;
   }
   .site-nav .main-nav__submenu-link:hover,
   .site-nav .main-nav__submenu-link:focus-visible { background: #f4efe0; color: var(--accent-color); border-color: rgba(181,94,49,.3); outline: none; }
@@ -1010,12 +1046,16 @@
           <div class="main-nav__menu" role="menu" aria-label="Projects submenu">
             <div class="main-nav__grid">
               <div>
-                <div class="main-nav__heading">Available</div>
+                <div class="main-nav__heading">
+                  <a href="#" class="main-nav__submenu-link top-level" tabindex="-1">Available</a>
+                </div>
                 <button class="main-nav__submenu-link" role="menuitem" data-tab="sales" data-target="#listings-section"><strong>Available for Sale</strong></button>
                 <button class="main-nav__submenu-link" role="menuitem" data-tab="rentals" data-target="#listings-section"><strong>Available for Lease</strong></button>
               </div>
               <div>
-                <div class="main-nav__heading">Sold</div>
+                <div class="main-nav__heading">
+                  <a href="#" class="main-nav__submenu-link top-level" tabindex="-1">Sold</a>
+                </div>
                 <button class="main-nav__submenu-link" role="menuitem" data-tab="sold" data-target="#listings-section"><strong>Closed Houses</strong></button>
                 <button class="main-nav__submenu-link" role="menuitem" data-tab="leased" data-target="#listings-section"><strong>Closed Leases</strong></button>
               </div>
