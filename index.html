@@ -517,7 +517,7 @@
     }
 
     .contact-heading {
-      font-size: 2.25rem;
+      font-size: 2.5rem;
       font-weight: 700;
       text-align: center;
       margin: 0 0 .75em;
@@ -525,7 +525,7 @@
       font-family: 'Playfair Display', 'Times New Roman', serif;
     }
     @media (max-width: 600px) {
-      .contact-heading { font-size: 1.85rem; }
+      .contact-heading { font-size: 2.05rem; }
     }
 
     .footer-content {
@@ -537,6 +537,14 @@
     .footer-contact {
       margin-bottom: 1.5em;
       font-size: .95rem;
+    }
+
+    .footer-contact .contact-chunk { display: inline; }
+    .footer-contact .contact-sep { display: inline; }
+
+    @media (max-width: 600px) {
+      .footer-contact .contact-chunk { display: block; margin: 0.15em 0; }
+      .footer-contact .contact-sep { display: none; }
     }
 
     .contact-form {
@@ -1271,11 +1279,13 @@
   <!-- Footer -->
   <footer id="footer" class="site-footer scroll-animate">
     <div class="footer-content">
-      <h2 class="contact-heading animate delay-0">Contact</h2>
+      <h2 class="contact-heading animate delay-0">Contact Me</h2>
       <p class="footer-contact animate delay-1">
-        DRE# 02102256 (CA) &nbsp;|&nbsp; Email: <a
-          href="mailto:joshkashani@theagencyre.com">joshkashani@theagencyre.com</a> &nbsp;|&nbsp; Phone:
-        +1&nbsp;(310)&nbsp;779‑1995
+        <span class="contact-chunk">DRE# 02102256 (CA)</span>
+        <span class="contact-sep">&nbsp;|&nbsp;</span>
+        <span class="contact-chunk">Email: <a href="mailto:joshkashani@theagencyre.com">joshkashani@theagencyre.com</a></span>
+        <span class="contact-sep">&nbsp;|&nbsp;</span>
+        <span class="contact-chunk">Phone: +1 (310) 779-1995</span>
       </p>
       <div class="social-buttons animate delay-2">
         <a href="https://www.instagram.com/kashanihomes?igsh=NTc4MTIwNjQ2YQ==" target="_blank"
