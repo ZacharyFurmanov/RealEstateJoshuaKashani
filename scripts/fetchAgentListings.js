@@ -3,6 +3,8 @@ const OWNER_KEY = process.env.AGENT_KEY || '2644';
 const OWNER_RT = 'AGENT';
 const PAGE_SIZE = 500;
 const BASE_URL = 'https://www.theagencyre.com/services/agoraGetFeaturedProperties.ashx';
+const REQUEST_TIMEOUT_MS = 30000;
+const LOG_FETCH_TIMESTAMPS = process.env.LOG_FETCH_TIMESTAMPS !== '0';
 
 // Dependencies
 const { URL } = require('url');
@@ -25,23 +27,45 @@ async function fetchByRT(rt, pageNum = 1) {
   Object.entries(params).forEach(([key, value]) => {
     url.searchParams.append(key, String(value));
   });
-  // perform request using fetch
-  const res = await fetch(url.toString(), {
-    headers: {
-      // Must match the agent detail page Referer and Origin
-      'Referer': 'https://www.theagencyre.com/agent/joshua-kashani',
-      'Origin': 'https://www.theagencyre.com',
-      // Browser AJAX flag
-      'X-Requested-With': 'XMLHttpRequest',
-      // Standard browser UA
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
-      'Accept': 'application/json, text/javascript, */*; q=0.01'
+  const requestUrl = url.toString();
+
+  try {
+    const res = await fetch(requestUrl, {
+      headers: {
+        // Must match the agent detail page Referer and Origin
+        'Referer': 'https://www.theagencyre.com/agent/joshua-kashani',
+        'Origin': 'https://www.theagencyre.com',
+        // Browser AJAX flag
+        'X-Requested-With': 'XMLHttpRequest',
+        // Standard browser UA
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
+        'Accept': 'application/json, text/javascript, */*; q=0.01'
+      },
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
+    });
+
+    if (!res.ok) {
+      const bodyPreview = await res.text();
+      const preview = bodyPreview.replace(/\s+/g, ' ').trim().slice(0, 200);
+      throw new Error(
+        `Error fetching ${rt} page ${pageNum}: ${res.status} ${res.statusText}` +
+        (preview ? ` | body: ${preview}` : '')
+      );
     }
-  });
-  if (!res.ok) {
-    throw new Error(`Error fetching ${rt}: ${res.status} ${res.statusText}`);
+
+    const text = await res.text();
+    try {
+      return JSON.parse(text);
+    } catch (err) {
+      const preview = text.replace(/\s+/g, ' ').trim().slice(0, 200);
+      throw new Error(
+        `Invalid JSON for ${rt} page ${pageNum} from ${requestUrl}` +
+        (preview ? ` | body: ${preview}` : '')
+      );
+    }
+  } catch (err) {
+    throw new Error(`Request failed for ${rt} page ${pageNum} at ${requestUrl}: ${err.message}`);
   }
-  return await res.json();
 }
 
 // Pagination Handler
@@ -115,9 +139,11 @@ async function main() {
     // Output Generation
     const output = feeds;
     // Log timestamp
-    const timestampLogPath = path.join(__dirname, 'fetchTimestamps.log');
-    const timestamp = new Date().toISOString();
-    fs.appendFileSync(timestampLogPath, `${timestamp}\n`, 'utf-8');
+    if (LOG_FETCH_TIMESTAMPS) {
+      const timestampLogPath = path.join(__dirname, 'fetchTimestamps.log');
+      const timestamp = new Date().toISOString();
+      fs.appendFileSync(timestampLogPath, `${timestamp}\n`, 'utf-8');
+    }
     const outPath = path.join(__dirname, '../public/listings.json');
     fs.writeFileSync(outPath, JSON.stringify(output, null, 2), 'utf-8');
     console.log(`Wrote ${allListings.length} listings to ${outPath}`);
