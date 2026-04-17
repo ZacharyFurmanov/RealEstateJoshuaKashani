@@ -32,14 +32,13 @@ async function fetchByRT(rt, pageNum = 1) {
   try {
     const res = await fetch(requestUrl, {
       headers: {
-        // Must match the agent detail page Referer and Origin
         'Referer': 'https://www.theagencyre.com/agent/joshua-kashani',
         'Origin': 'https://www.theagencyre.com',
-        // Browser AJAX flag
         'X-Requested-With': 'XMLHttpRequest',
-        // Standard browser UA
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
-        'Accept': 'application/json, text/javascript, */*; q=0.01'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36',
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        // Client ID now required by theagencyre.com backend (AGY|PROD|COMPANY|1)
+        'ag-clientid': 'QUdZfFBST0R8Q09NUEFOWXwx'
       },
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
     });
