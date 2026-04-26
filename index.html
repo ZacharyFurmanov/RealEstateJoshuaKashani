@@ -1405,7 +1405,7 @@
       }).addTo(map);
 
       /* Pull listings and add circle markers (green = active, red = sold/closed) */
-      fetch('public/listings.json')
+      fetch('public/listings.json?t=' + Date.now(), { cache: 'no-store' })
         .then(r => r.json())
         .then(data => {
           // Build a map of all listings by unique key
@@ -1540,7 +1540,7 @@
       sold: '#panel-sold .listing-grid'
     };
 
-    fetch('public/listings.json')
+    fetch('public/listings.json?t=' + Date.now(), { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
         // ----- Re‑classify raw feed buckets into UI categories -----
@@ -1660,7 +1660,7 @@
                 <div>
                   <a href="${item.DetailUrlForSchema || item.DetailUrl || '#'}" target="_blank" rel="noopener">
                     <h4 class="listing-address">${item.FormattedAddress || item.Address}</h4>
-                    <p>${item.FormattedPrice || item.ListPrice}${bedBath ? ' · ' + bedBath : ''}</p>
+                    <p>${item.FormattedPrice || item.ListPrice}${item.IsRental ? '/mo' : ''}${bedBath ? ' · ' + bedBath : ''}</p>
                   </a>
                 </div>
               </div>
